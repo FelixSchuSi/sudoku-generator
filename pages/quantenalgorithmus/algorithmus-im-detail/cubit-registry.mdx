@@ -8,6 +8,9 @@ Im vorhinein kann berechnet werden, wie viele Qubits für welchen Teil des Schal
 benötigt werden. Diese Informationen können in einem zentralen „Telefonbuch“ ablegen werden.
 Beim erstellen des Schaltkreises kann dadurch auf die Einträge in der Registry verwiesen werden.
 
+## Implementierung
+Die Qubit Registry wurde wie folgt implementiert:
+
 ```python {3}
 import math
 
@@ -48,15 +51,6 @@ class CubitRegisty:
         )
         self.number_of_qubits = len(bin(len(sudoku_board) - 1).replace("0b", ""))
 
-        print(f"Länge der Sudoku-Boards: {len(sudoku_board)} x {len(sudoku_board)}")
-        print(f"Qubits pro Lücke:        {self.number_of_qubits}")
-        print(f"Anzahl Qubits insgesamt: {self.total_qubit_count}")
-        print(f"Anzahl Value Qubits:     {self.value_qubit_count}")
-        print(f"Anzahl Clause Qubits:    {self.clause_qubit_count}")
-        print(f"Anzahl Hilfsqubits:      {self.ancilla_qubit_count}")
-        print(f"Edges:                   {edges}")
-        print(f"Candidats:               {candidates}")
-
     def __get_value_qubits(self, sudoku_board):
         """
         Ermittelt die Anzahl an Qubits, die benötigt werden, um die Blanks in dem
@@ -66,5 +60,19 @@ class CubitRegisty:
         get_bit_for_decimal = lambda n: math.ceil(math.log(n) / math.log(2))
         number_of_empty_cells = sudoku_board.flatten().tolist().count(0)
         return number_of_empty_cells * get_bit_for_decimal(len(sudoku_board))
+
+```
+
+## Verwendung
+Die Qubit Registry kann an anderen Stellen im Code verwendet werden, um bestimmte Qubits zu referenzieren.
+
+```python {3} /qubit_registry/
+def main(request_payload = None, sudoku_board = None):
+    # ...
+    qubit_registry = CubitRegisty(edges, sudoku_board, candidates)
+    qr = QuantumRegister(qubit_registry.total_qubit_count)
+    cr = ClassicalRegister(qubit_registry.value_qubit_count)
+    qc = QuantumCircuit(qr, cr)
+    # ...
 
 ```
