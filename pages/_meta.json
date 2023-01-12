@@ -1,0 +1,23 @@
+{
+    "index": {
+        "title": "Sudoku Generator",
+        "type": "page",
+        "display": "hidden"
+    },
+    "basiswissen": {
+        "title": "Basiswissen",
+        "type": "page"
+    },
+    "quantenalgorithmus": {
+        "title": "Quantenalgorithmus",
+        "type": "page"
+    },
+    "videos": {
+        "title": "Videos",
+        "type": "page"
+    },
+    "benchmarks": {
+        "title": "Benchmarks",
+        "type": "page"
+    }
+}
