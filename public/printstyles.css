@@ -1,0 +1,10 @@
+@media print {
+aside.nextra-sidebar-container,
+div.motion-reduce\:nx-transition-none.\.nx-fixed.nx-inset-0.nx-z-10.nx-bg-black\/80.dark\:nx-bg-black\/60,
+.nextra-nav-container,
+main > div:last-child,
+footer
+{
+    display: none;
+}
+}
