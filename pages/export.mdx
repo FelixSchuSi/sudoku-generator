@@ -1,11 +1,4 @@
-# Grover Algorithmus
-
-# Literaturempfehlungen
-
-# Benchmarks
-Hier könnten benchmarks stehen.
-
-
+import { AllRoutes } from 'components/Allroutes'
 
 # Sudoku Generator
 
@@ -13,20 +6,41 @@ Das ist die Landingpage.
 Hier sollten wir erklären was das Projekt und diese Seite ist.
 Wir sollten hier auf die Abschnitte der Doku verweisen.
 
+<AllRoutes />
 
-# Candidates
 
-# Qubit Registry
+
+# Basiswissen
+
+## Literaturempfehlungen
+
+## Grover Algorithmus
+
+# Quantenalgorithmus
+
+## Übersicht
+
+### Bestandteile
+
+### Demo Anwendung
+
+## Algorithmus im Detail
+
+### Candidates
+
+### Edges
+
+### Qubit Registry
 
 Abhängig vom eingehenden Sudoku-Board müssen im Quantenschaltkreis unterschiedlich viele Qubits verwendet werden.
 Daher gestaltet es sich schwierig beim Erstellen des Schaltkreises die korrekten Qubits zu referenzieren
 
-## Idee
+#### Idee
 Im vorhinein kann berechnet werden, wie viele Qubits für welchen Teil des Schaltkreises
 benötigt werden. Diese Informationen können in einem zentralen „Telefonbuch“ ablegen werden.
 Beim erstellen des Schaltkreises kann dadurch auf die Einträge in der Registry verwiesen werden.
 
-## Implementierung
+#### Implementierung
 Die Qubit Registry wurde wie folgt implementiert:
 
 ```python {3}
@@ -81,7 +95,7 @@ class CubitRegisty:
 
 ```
 
-## Verwendung
+#### Verwendung
 Die Qubit Registry kann an anderen Stellen im Code verwendet werden, um bestimmte Qubits zu referenzieren.
 
 ```python {3} /qubit_registry/
@@ -95,27 +109,28 @@ def main(request_payload = None, sudoku_board = None):
 
 ```
 
-# Diffusor
+### Init Blanks
 
-# Edges
+### Oracle
 
-# Ergebnis parsen
+### Diffusor
 
-# Ergebnis überprüfen und messen
+### Messen und Ausführen
 
-# Init Blanks
+### Ergebnis parsen
 
-# Messen und Ausführen
+### Ergebnis überprüfen und messen
 
-# Oracle
+## Entwicklung
 
-# Entwicklung
-
-# Bestandteile
-
-# Demo Anwendung
-
-# Zusammenfassung
+## Zusammenfassung
 
 # Videos
+
+## Videos
 hier könnten videos stehen
+
+# Benchmarks
+
+## Benchmarks
+Hier könnten benchmarks stehen.
