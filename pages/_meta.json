@@ -4,6 +4,10 @@
         "type": "page",
         "display": "hidden"
     },
+    "export": {
+        "title": "Export",
+        "display": "hidden"
+    },
     "basiswissen": {
         "title": "Basiswissen",
         "type": "page"
