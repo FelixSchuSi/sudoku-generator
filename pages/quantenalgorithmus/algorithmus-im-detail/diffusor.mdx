@@ -1,1 +1,49 @@
 # Diffusor
+Der Diffusor im Grover-Algorithmus ist ein Teil des Algorithmus, der dazu dient, die Wahrscheinlichkeit
+des gesuchten Zustands zu erhöhen. Dieser Teil des Algorithmus besteht aus einer Inversion um den
+Mittelwert (engl. diffusion) und wird auf dem Zustandsvektor der Qubits angewendet.
+
+## Idee
+Der Code implementiert einen Diffusor mithilfe einer Schaltung, die auf einem Quantum Register aufgebaut ist.
+Die Schaltung beginnt damit, den Anfangszustand der Qubits umzukehren (initialize_blanks_inverse),
+dann werden die Qubits auf den Zustand "1" gesetzt (circuit.x). Danach wird mittels, circuit.h(),
+der Hadamard-Operator auf das Qubit qr[qubit_registry.value_qubits[1]] ausgeführt. Dieser Operator
+wird verwendet, um das Qubit in den Superposition-Zustand zu versetzen.
+
+Danach wird eine Mehrfachsteuerung CZ-Operation auf die Qubits angewendet.
+Diese Operation wird auf einer v-Kette von Qubits durchgeführt (modus "v-chain").
+Diese Operation erzeugt eine Korrelation zwischen den Qubits, die dazu beiträgt,
+die Wahrscheinlichkeit des gesuchten Zustands zu erhöhen.
+
+Zuletzt wird der Anfangszustand der Qubits wiederhergestellt (initialize_blanks).
+
+## Implementierung
+Die Funktion "diffusor" wurde wie folgt implementiert:
+```python
+def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
+    """
+    diffusion (inversion about the mean) circuit.
+    note that this implementation gives H^{\otimes n} (Id - |0..0><0...0|) H^{\otimes n}
+    :param circuit:
+    :param qr: QuantumRegister on nodes
+    :return:
+    """
+    # Umkehrung des Anfangszustandes
+    initialize_blanks_inverse(
+        circuit, qr[: qubit_registry.value_qubits[1] + 1], candidates, qubit_registry
+    )
+    circuit.x(qr[: qubit_registry.value_qubits[1] + 1])
+    # apply multi-control CZ
+    circuit.h(qr[qubit_registry.value_qubits[1]])
+
+    circuit.mct(
+        qr[: qubit_registry.value_qubits[1]],
+        qr[qubit_registry.value_qubits[1]],
+        qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1],
+        mode="v-chain",
+    )
+    circuit.h(qr[qubit_registry.value_qubits[1]])
+    circuit.x(qr[: qubit_registry.value_qubits[1] + 1])
+    initialize_blanks(circuit, qr[: qubit_registry.value_qubits[1] + 1], candidates, qubit_registry)
+
+```

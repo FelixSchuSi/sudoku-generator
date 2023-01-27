@@ -1,1 +1,54 @@
 # Messen und Ausführen
+Dieser Code führt eine Simulation eines quantencomputers auf dem sudoku-quantum-circuit aus und misst das Ergebnis.
+## Idee
+Der Befehl "qc.measure" misst die Zustände des quantenregisters, welche in "qubit_registry.value_qubits" definiert sind.
+Diese Messwerte werden auf die klassischen Register "cr" geschrieben. Der Befehl "execute" führt die Simulation auf
+dem "AerSimulator" Backend mit 10000 Wiederholungen aus. Die Zeit, die die Simulation braucht,
+wird mit "process_time()" gemessen und ausgegeben.
+Das Ergebnis der Simulation wird in der Variablen "result" gespeichert.
+
+## Implementierung
+Die Implementierung zeigt die Main-Methode des gesamten Algorithmus. In diesem Abschnitt kommt es auf die
+hervorgehobenen Zeilen an, das Messen und Ausführen auf dem Simulator.
+```python {19-27}
+def main(request_payload = None, sudoku_board = None):
+    if sudoku_board is None:
+    sudoku_board = request_to_sudoku_board(request_payload)
+    candidates = get_candidates(sudoku_board)
+    edges = create_edges_from_sudoku_board(sudoku_board=sudoku_board)
+    qubit_registry = CubitRegisty(edges, sudoku_board, candidates)
+    qr = QuantumRegister(qubit_registry.total_qubit_count)
+    cr = ClassicalRegister(qubit_registry.value_qubit_count)
+    qc = QuantumCircuit(qr, cr)
+
+        initialize_blanks(qc, qr, candidates, qubit_registry)
+
+        grover_iterations = max(1, int(0.5 * sqrt(prod([len(c) for c in candidates]))))
+        print(f"Grover Iterationen:      {grover_iterations}")
+        for i in range(grover_iterations):
+            simple_oracle(qc, qr, edges, qubit_registry)
+            diffusor(qc, qr, candidates, qubit_registry)
+
+        qc.measure(
+            qr[qubit_registry.value_qubits[0] : qubit_registry.value_qubits[1] + 1],
+            cr[qubit_registry.value_qubits[0] : qubit_registry.value_qubits[1] + 1],
+        )
+        print("Simulation gestartet")
+        start_time = process_time()
+        job = execute(qc, backend=AerSimulator(), shots=10000)
+        print(f"Simulation dauerte       {process_time() - start_time} Sekunden")
+        result = job.result()
+
+        solved_sudoku = fill_in_gaps(
+            sudoku_board,
+            parse_simulation_result(
+                result.get_counts(),
+                gap_count=sudoku_board.flatten().tolist().count(0),
+                qubit_registry=qubit_registry
+            ),
+        )
+        print("Gefundene Lösung:\n", solved_sudoku)
+        print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}")
+    return solved_sudoku, qc.qasm()
+```
+

@@ -1,1 +1,56 @@
 # Ergebnis überprüfen und messen
+Die Funktion "is_valid_sudoku_solution" prüft, ob eine gegebene Sudoku-Lösung gültig ist.
+## Idee
+Es wird eine Schleife über jede Zelle des Sudoku-Boards verwendet, in der jede Zelle mit jeder anderen Zelle in der
+gleichen Zeile und Spalte sowie in den gleichen Quadranten verglichen wird. Wenn eine Übereinstimmung gefunden wird,
+wird False zurückgegeben (d.H. keine korrekte Sudoku Lösung gefunden). Wenn keine Übereinstimmungen gefunden wird,
+wird True zurückgegeben (d.H. keine fehler in der Sudoku Lösung gefunden, Lösung ist korrekt).
+
+## Implementierung
+Die Funktion "is_valid_sudoku_solution" ist wie folgt implementiert:
+```python
+def is_valid_sudoku_solution(sudoku_board):
+    for rowIndex, row in enumerate(sudoku_board):
+        for colIndex, cell in enumerate(row):
+            for i in range(0, len(sudoku_board)):
+                if (
+                    sudoku_board[rowIndex][i] == sudoku_board[rowIndex][colIndex]
+                    and colIndex != i
+                ):
+                    return False
+                if (
+                    sudoku_board[i][colIndex] == sudoku_board[rowIndex][colIndex]
+                    and rowIndex != i
+                ):
+                    return False
+
+                varRow = rowIndex % 2
+                varCol = colIndex % 2
+                if len(sudoku_board) == 4:
+                    if varCol == 0 and varRow == 0:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex + 1][colIndex + 1]
+                        ):
+                            return False
+                    if varCol == 0 and varRow == 1:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex - 1][colIndex + 1]
+                        ):
+                            return False
+                    if varCol == 1 and varRow == 1:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex - 1][colIndex - 1]
+                        ):
+                            return False
+                    if varCol == 1 and varRow == 0:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex + 1][colIndex - 1]
+                        ):
+                            return False
+    return True
+
+```

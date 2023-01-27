@@ -1,1 +1,45 @@
 # Grover Algorithmus
+
+Der Grover-Algorithmus ist ein Quantum-Algorithmus, der die Suche in ungeordneten Datenstrukturen beschleunigt.
+Im Vergleich zu klassischen Algorithmen, die in der Regel eine Laufzeit von O(n) haben, hat der Grover-Algorithmus
+eine Laufzeit von O(sqrt(n)).
+
+Der Grover-Algorithmus verwendet zwei wichtige Komponenten:
+
+    - ein Oracle
+    - einen Diffusor
+
+Das Oracle ist eine Funktion, die auf die Datenstruktur angewendet wird, um die gesuchten Elemente hervorzuheben.
+Es ist eine Art "Markierungsfunktion", die den Zustand der Qubits ändert, wenn sie auf die gesuchten Elemente
+angewendet wird. Im Grover-Algorithmus wird das Oracle verwendet, um die gesuchten Elemente von den nicht
+gesuchten Elementen zu unterscheiden.
+
+Der Diffusor ist eine weitere Funktion, die auf die Datenstruktur angewendet wird. Seine Aufgabe ist es,
+den Zustand der Qubits so zu ändern, dass die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird,
+erhöht wird. Dieser Teil des Algorithmus besteht aus einer Inversion um den Mittelwert (engl. diffusion)
+und wird auf dem Zustandsvektor der Qubits angewendet.
+
+Der Algorithmus selbst besteht aus mehreren Iterationen, bei denen das Oracle und der Diffusor im Wechsel
+angewendet werden, um die gesuchten Elemente zu finden. Jede Iteration erhöht die Wahrscheinlichkeit,
+dass ein gesuchtes Element gefunden wird, bis schlussendlich ein gesuchtes Element gefunden wird.
+
+Der detaillierte Ablauf des Grover-Algorithmus sieht folgendermaßen aus:
+
+1. Initialisierung: Der Anfangszustand aller Qubits wird auf den gleichen Zustand gesetzt.
+
+2. Oracle: Das Oracle wird auf den aktuellen Zustand angewendet. Es ändert die Phasen der Zustände, die die gesuchten
+Elemente repräsentieren, um 180 Grad. Dies unterscheidet die gesuchten Elemente von den nicht gesuchten Elementen.
+
+3. Diffusor: Der Diffusor wird auf den aktuellen Zustand angewendet. Es ändert die Phasen aller Zustände um 90 Grad,
+um die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird, zu erhöhen.
+
+4. Iteration: Der Algorithmus wiederholt Schritt 2 und Schritt 3 mehrere Male, bis eine gewisse Anzahl von Iterationen
+erreicht ist. Nach jeder Iteration wird die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird, erhöht.
+
+5. Messung: Der Algorithmus misst schlussendlich den Zustand der Qubits, um das gesuchte Element zu erhalten.
+
+Es ist wichtig zu beachten, dass der Grover-Algorithmus nicht garantiert, das gesuchte Element in genau sqrt(N)
+Schritten zu finden.
+
+
+

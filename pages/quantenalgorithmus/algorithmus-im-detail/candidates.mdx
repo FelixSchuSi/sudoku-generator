@@ -1,1 +1,55 @@
 # Candidates
+Die Funktion "get_candidates" gibt die Liste "candidates" zurück, die für jede leere Zelle eine Liste mit
+möglichen Sudoku Zahlen enthält.
+
+## Idee
+Diese Funktion berechnet die möglichen Werte für die Lücken im Sudoku-Spielfeld. Sie durchläuft das Spielfeld Zeile
+für Zeile und prüft, ob jede Zelle leer ist oder nicht. Wenn die Zelle leer ist, wird für jeden mögliche Sudoku-Zah)
+überprüft, ob er eine mögliche Lösung für die Zelle ist (Sudoku 4*4 = Sudoku-Zahlen 1-4). Dazu wird geprüft, ob
+die Sudoku Zahl in der gleichen Spalte oder Zeile bereits vorkommt und - falls das Spielfeld Quadraten hat - auch,
+ob die Sudoku Zahl im gleichen Block bereits vorkommt. Wenn eine Sudoku Zahl als mögliche Lösung gültig ist,
+wird sie einer temporären Liste hinzugefügt. Am Ende der Schleife wird diese Liste der finalen Liste "candidates"
+hinzugefügt.
+
+## Implementierung
+
+Die Funktion "get_candidates" wurde wie folgt implementiert:
+```python
+def get_candidates(sudoku_board):
+    """
+    Berechnet mögliche Werte für die Lücken im Sudoku Boad.
+    Returnt eine List mit den möglichen Werten für die Lücken.
+
+    Beispiel:
+        [[3], [1, 3], [2, 3], [3], [2, 3], [3], [3]]
+        In der ersten Lücke ist mit 3 zu befüllen,
+        in der zweiten Lücke passen 1 und 3.
+    """
+    candidates = []
+    for i in range(len(sudoku_board)):
+        for j in range(len(sudoku_board[0])):
+            if sudoku_board[i][j] != 0:
+                continue
+            tmp = []
+            for possible_value in range(1, len(sudoku_board)+1):
+                is_possible_value = True
+                for row in range(len(sudoku_board)):
+                    if sudoku_board[row][j] == possible_value:
+                        is_possible_value = False
+                for col in range(len(sudoku_board)):
+                    if sudoku_board[i][col] == possible_value:
+                        is_possible_value = False
+
+                if math.sqrt(len(sudoku_board)).is_integer():
+                    for x in range(len(sudoku_board)):
+                        for y in range(len(sudoku_board)):
+                            if not is_in_same_block(i, j, x, y, len(sudoku_board)):
+                                continue
+                            if sudoku_board[x][y] == possible_value:
+                                is_possible_value = False
+                if is_possible_value:
+                    tmp.append(possible_value)
+            candidates.append(tmp)
+    return candidates
+
+```

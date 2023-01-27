@@ -1,1 +1,34 @@
 # Ergebnis parsen
+Diese Funktion wandelt das Ergebnis der Simulation in ein interpretierbares Format um.
+## Idee
+Dazu nimmt die Funktion drei Argumente entgegen:
+
+    - count: ein Dictionary, das die Ergebnisse der Simulation enthält, wobei jeder Schlüssel eine Binärzeichenfolge
+    und jeder Wert die Häufigkeit dieser Zeichenfolge in der Simulation ist.
+
+    - gap_count: die Anzahl der Lücken im Sudoku, die aufgelöst werden sollen
+
+    - qubit_registry: ein Objekt des Typs CubitRegistry, das Informationen über die Anzahl der verwendeten
+     Qubits enthält.
+
+Die Funktion sortiert die Ergebnisse nach Häufigkeit und nimmt das häufigste Ergebnis.
+Es iteriert dann über das beste Ergebnis und konvertiert jede Binärzeichenfolge in eine Dezimalzahl.
+Diese Dezimalzahlen werden zu einem String zusammengefügt und zurückgegeben.
+
+## Implementierung
+```python
+def parse_simulation_result(count, gap_count, qubit_registry: CubitRegisty) -> str:
+    """
+    Wandelt die Ergebnisse der Simulation in ein interpretierbares Format um.
+    Return ein String, wobei jedes Zeichen des Strings den Inhalt eines freien
+    Feldes vom Sudoku repräsentiert.
+    """
+    best_result = sorted(count.items(), key=lambda x: x[1], reverse=True)[0][0][::-1]
+    result = ""
+    for i in range(0, gap_count * qubit_registry.number_of_qubits, qubit_registry.number_of_qubits):
+
+        tmp = "".join(best_result[i : i + qubit_registry.number_of_qubits])
+        result += str(int(tmp, 2))
+    return result
+
+```
