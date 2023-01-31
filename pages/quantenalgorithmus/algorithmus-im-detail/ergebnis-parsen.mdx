@@ -9,11 +9,12 @@ Dazu nimmt die Funktion drei Argumente entgegen:
     - gap_count: die Anzahl der Lücken im Sudoku, die aufgelöst werden sollen
 
     - qubit_registry: ein Objekt des Typs CubitRegistry, das Informationen über die Anzahl der verwendeten
-     Qubits enthält.
+     Qubits enthält. Dies ist entscheiden, da je nachdem wie viele Qubits zur Darstellung einer Zahl benötigt werden,
+     entsprechend das Ergebnis geparst werden muss.
 
-Die Funktion sortiert die Ergebnisse nach Häufigkeit und nimmt das häufigste Ergebnis.
-Es iteriert dann über das beste Ergebnis und konvertiert jede Binärzeichenfolge in eine Dezimalzahl.
-Diese Dezimalzahlen werden zu einem String zusammengefügt und zurückgegeben.
+Die Funktion sortiert die Ergebnisse nach Häufigkeit und wählt das Ergebnis, welches am häufigsten vorkommt.
+Dazu iteriert die Funktion dann über das Ergebnis und konvertiert jede Binärzeichenfolge in eine Dezimalzahl.
+Die Dezimalzahlen werden zu einem String zusammengefügt und zurückgegeben.
 
 ## Implementierung
 ```python
@@ -31,4 +32,29 @@ def parse_simulation_result(count, gap_count, qubit_registry: CubitRegisty) -> s
         result += str(int(tmp, 2))
     return result
 
+```
+
+## Verwendung
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. In diesem Abschnitt kommt es auf die
+hervorgehobene Zeile an, in der die Funktion 'parse_simulation_result' aufgerufen wird.
+```python {11}
+def main(request_payload = None, sudoku_board = None):
+    #...
+        print("Simulation gestartet")
+        start_time = process_time()
+        job = execute(qc, backend=AerSimulator(), shots=10000)
+        print(f"Simulation dauerte       {process_time() - start_time} Sekunden")
+        result = job.result()
+
+        solved_sudoku = fill_in_gaps(
+            sudoku_board,
+            parse_simulation_result(
+                result.get_counts(),
+                gap_count=sudoku_board.flatten().tolist().count(0),
+                qubit_registry=qubit_registry
+            ),
+        )
+        print("Gefundene Lösung:\n", solved_sudoku)
+        print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}")
+    return solved_sudoku, qc.qasm()
 ```

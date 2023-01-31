@@ -54,3 +54,33 @@ def is_valid_sudoku_solution(sudoku_board):
     return True
 
 ```
+
+## Verwendung
+Die Funktion "is_valid_sudoku_solution" wird am Ende der Main Methode aufgerufen.
+Ihr wird das gelöste Sudoku "solved_sudoku" übergeben.
+
+Dazu wird die Simulationsdauer gemessen um am Ende der Simulation die Ausführungszeit zu erhalten.
+Diese wird mittels `print(f"Simulation dauerte       {process_time() - start_time} Sekunden")` berechnet.
+
+```python {18}
+def main(request_payload = None, sudoku_board = None):
+    # ...
+        print("Simulation gestartet")
+        start_time = process_time()
+        job = execute(qc, backend=AerSimulator(), shots=10000)
+        print(f"Simulation dauerte       {process_time() - start_time} Sekunden")
+        result = job.result()
+
+        solved_sudoku = fill_in_gaps(
+            sudoku_board,
+            parse_simulation_result(
+                result.get_counts(),
+                gap_count=sudoku_board.flatten().tolist().count(0),
+                qubit_registry=qubit_registry
+            ),
+        )
+        print("Gefundene Lösung:\n", solved_sudoku)
+        print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}")
+    return solved_sudoku, qc.qasm()
+
+```

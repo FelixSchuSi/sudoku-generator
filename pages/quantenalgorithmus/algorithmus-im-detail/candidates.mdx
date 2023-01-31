@@ -53,3 +53,13 @@ def get_candidates(sudoku_board):
     return candidates
 
 ```
+
+## Verwendung
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der 'get_candidates'.
+```python {4}
+def main(request_payload = None, sudoku_board = None):
+    if sudoku_board is None:
+    sudoku_board = request_to_sudoku_board(request_payload)
+    candidates = get_candidates(sudoku_board)
+#...
+```
