@@ -1,7 +1,8 @@
 import React from 'react'
-import { DocsThemeConfig } from 'nextra-theme-docs';
+import { DocsThemeConfig, useConfig } from 'nextra-theme-docs';
 import { useRouter } from 'next/router';
 import Logo from './logo';
+import Link from 'next/link';
 
 const config: DocsThemeConfig = {
   logo: Logo,
@@ -59,12 +60,24 @@ const config: DocsThemeConfig = {
       }
     },
   },
-  gitTimestamp: ({ timestamp }) => {
+  gitTimestamp: (args) => {
     const { locale } = useRouter();
+    const { timestamp } = args;
+    const { authorName, authorGithubName } = useConfig()?.frontMatter ?? {};
     switch (locale) {
       case "de":
       default:
-        return <>Zuletzt aktualisiert am {new Intl.DateTimeFormat('de', { dateStyle: 'long' }).format(timestamp)}</>
+        return <div style={{ display: 'flex', justifyContent: 'space-between', width: "100%", alignItems: 'flex-end' }}>
+          <div style={{ display: 'flex', flexDirection: "row", marginTop: "1em", alignItems: "center" }}>
+            <Link href={`https://github.com/${authorGithubName}`}><img alt={authorName} style={{ borderRadius: "50%", height: "3em", aspectRatio: "1 / 1" }} src={`https://github.com/${authorGithubName}.png`} /></Link>
+            <div style={{ display: 'flex', flexDirection: 'column', marginLeft: "1em" }}>
+              <p style={{ color: "rgba(156,163,175,var(--tw-text-opacity));", fontSize: ".875rem;", textAlign: 'left' }}>Author</p>
+              <Link href={`https://github.com/${authorGithubName}`} style={{ fontSize: "1.2em", color: "white" }}>{authorName}</Link>
+            </div>
+
+          </div>
+          <p>Zuletzt aktualisiert am {new Intl.DateTimeFormat('de', { dateStyle: 'long' }).format(timestamp)}</p>
+        </div>
     }
   },
   head: () => {
