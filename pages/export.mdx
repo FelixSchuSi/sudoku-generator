@@ -12,9 +12,127 @@ Wir sollten hier auf die Abschnitte der Doku verweisen.
 
 # Basiswissen
 
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
+
 ## Literaturempfehlungen
 
+### 1.	Quantencomputing kompakt – Bettina Just
+
+Das Buch von Bettina Just befasst sich mit zwei konkreten Fragestellungen:
+
+-	Was sind Quantenverschränkungen?
+-	Wie funktionieren Quantenalgorithmen?
+
+Im ersten Teil des Buches werden die Grundlagen der Quantenverschränkungen erklärt.
+Dabei werden die physikalischen Gesetze erläutert, die für Quantencomputer relevant
+sind und wie sie sich auf die Technologie auswirken. Es zeigt auch die Möglichkeiten,
+die Quantenverschränkungen bieten und wie sie sich von traditionellen Verschränkungen
+unterscheiden. Durch praktische Beispiele wird veranschaulicht, wie Quantenverschränkungen
+in der Anwendung genutzt werden können.
+
+Der zweite Teil des Buches beschreibt detailliert die Funktionsweise der Software, d.h.
+der Quantenalgorithmen, ohne dabei auf die Hardware einzugehen.  Da Schaltkreise die
+Grundlage von Algorithmen sind, werden Quantenschaltkreise betrachtet. Im Fokus stehen
+dabei Quantengatter und einer der aufregendsten und gleichzeitig einfachsten Algorithmen
+in der Welt des Quantencomputers, der Teleportationsalgorithmus.
+
+Ergänzend zu dem Buch, empfiehlt sich die Videoreihe zum Thema Quantencomputing, die
+kostenfrei vom Hasso-Plattner-Institut (HPI) bereitgestellt wird.
+
+### 2. Online Videokurs Reihe – HPI
+
+Die hier aufgeführten Videos bieten einen guten ersten Einstieg in das Quantencomputing:
+
+a. [Einführung in das Quantencomputing – Teil 1](https://open.hpi.de/courses/qc-intro-1-2022)
+
+    Autorin: Bettina Just
+
+    Inhalte: Historie, Begrifflichkeiten, Quantenschaltkreise, Quantenregister und Quantenbit
+
+b. [Einführung in das Quantencomputing – Teil 2](https://open.hpi.de/courses/qc-intro-2-2022)
+
+    Autorin: Bettina Just
+
+    Inhalte: Pauli-X, Pauli-Z, Hadamard, CNOT, Superposition und Verschränkung
+
+c. [Quantenalgorithmen und Implementierung - Teil 1](https://open.hpi.de/courses/qc-algorithmen-1-2022)
+
+    Autor: Prof. Dr. Gerhard Hellstern
+
+    Inhalte: Grundlagen und Grundbegriffe des Quantencomputings, Schaltkreismodell im Quantencomputing und Quantensoftware wie Qiskit, Einblick in verschiedene Quantenalgorithmen unter Verwendugn von Qiskit
+
+___
+*Hinweis: Dies ist eine verfügbare Auswahl an Videomaterial des HPIs Stand Januar 2023.*
+*Bitte prüfen Sie die Verfügbarkeit ergänzender Videos zum Thema [Quantencomputing](https://open.hpi.de/courses?q=&channel=quantum&lang=&topic=&level=).*
+
+### 3. Qiskit Einführung
+
+a. [Introduction to Quantum Computing with Qiskit](https://open.hpi.de/courses/qc-qiskit2022)
+
+    Autoren: Dr. Elisa Bäumer, Carmen Recio Valcarce
+
+    Inhalte: Grundlagen in der Programmierung mit Qiskit; Implementierung des Grover Algorithmus und Deutsch-Jozsa Algorithmus
+
+### 4. Qiskit Videos
+Weitere Videos zum Programmieren mit Qiskit finden Sie unter folgendem Youtube-Link:
+
+   [https://www.youtube.com/watch?v=a1NZC5rqQD8&list=PLOFEBzvs-Vvp2xg9-POLJhQwtVktlYGbY](https://www.youtube.com/watch?v=a1NZC5rqQD8&list=PLOFEBzvs-Vvp2xg9-POLJhQwtVktlYGbY)
+
+
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
+
 ## Grover Algorithmus
+
+Der Grover-Algorithmus ist ein Quantum-Algorithmus, der die Suche in ungeordneten Datenstrukturen beschleunigt.
+Im Vergleich zu klassischen Algorithmen, die in der Regel eine Laufzeit von O(n) haben, hat der Grover-Algorithmus
+eine Laufzeit von O(sqrt(n)).
+
+Der Grover-Algorithmus verwendet zwei wichtige Komponenten:
+
+    - ein Oracle
+    - einen Diffusor
+
+Das Oracle ist eine Funktion, die auf die Datenstruktur angewendet wird, um die gesuchten Elemente hervorzuheben.
+Es ist eine Art "Markierungsfunktion", die den Zustand der Qubits ändert, wenn sie auf die gesuchten Elemente
+angewendet wird. Im Grover-Algorithmus wird das Oracle verwendet, um die gesuchten Elemente von den nicht
+gesuchten Elementen zu unterscheiden.
+
+Der Diffusor ist eine weitere Funktion, die auf die Datenstruktur angewendet wird. Seine Aufgabe ist es,
+den Zustand der Qubits so zu ändern, dass die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird,
+erhöht wird. Dieser Teil des Algorithmus besteht aus einer Inversion um den Mittelwert (engl. diffusion)
+und wird auf dem Zustandsvektor der Qubits angewendet.
+
+Der Algorithmus selbst besteht aus mehreren Iterationen, bei denen das Oracle und der Diffusor im Wechsel
+angewendet werden, um die gesuchten Elemente zu finden. Jede Iteration erhöht die Wahrscheinlichkeit,
+dass ein gesuchtes Element gefunden wird, bis schlussendlich ein gesuchtes Element gefunden wird.
+
+Der detaillierte Ablauf des Grover-Algorithmus sieht folgendermaßen aus:
+
+1. Initialisierung: Der Anfangszustand aller Qubits wird auf den gleichen Zustand gesetzt.
+
+2. Oracle: Das Oracle wird auf den aktuellen Zustand angewendet. Es ändert die Phasen der Zustände, die die gesuchten
+Elemente repräsentieren, um 180 Grad. Dies unterscheidet die gesuchten Elemente von den nicht gesuchten Elementen.
+
+3. Diffusor: Der Diffusor wird auf den aktuellen Zustand angewendet. Es ändert die Phasen aller Zustände um 90 Grad,
+um die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird, zu erhöhen.
+
+4. Iteration: Der Algorithmus wiederholt Schritt 2 und Schritt 3 mehrere Male, bis eine gewisse Anzahl von Iterationen
+erreicht ist. Nach jeder Iteration wird die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird, erhöht.
+
+5. Messung: Der Algorithmus misst schlussendlich den Zustand der Qubits, um das gesuchte Element zu erhalten.
+
+Es ist wichtig zu beachten, dass der Grover-Algorithmus nicht garantiert, das gesuchte Element in genau sqrt(N)
+Schritten zu finden.
+
+
+
+
 
 # Quantenalgorithmus
 
@@ -26,9 +144,84 @@ Wir sollten hier auf die Abschnitte der Doku verweisen.
 
 ## Algorithmus im Detail
 
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
+
 ### Candidates
+Die Funktion "get_candidates" gibt die Liste "candidates" zurück, die für jede leere Zelle eine Liste mit
+möglichen Sudoku Zahlen enthält.
+
+#### Idee
+Diese Funktion berechnet die möglichen Werte für die Lücken im Sudoku-Spielfeld. Sie durchläuft das Spielfeld Zeile
+für Zeile und prüft, ob jede Zelle leer ist oder nicht. Wenn die Zelle leer ist, wird für jeden mögliche Sudoku-Zah)
+überprüft, ob er eine mögliche Lösung für die Zelle ist (Sudoku 4*4 = Sudoku-Zahlen 1-4). Dazu wird geprüft, ob
+die Sudoku Zahl in der gleichen Spalte oder Zeile bereits vorkommt und - falls das Spielfeld Quadraten hat - auch,
+ob die Sudoku Zahl im gleichen Block bereits vorkommt. Wenn eine Sudoku Zahl als mögliche Lösung gültig ist,
+wird sie einer temporären Liste hinzugefügt. Am Ende der Schleife wird diese Liste der finalen Liste "candidates"
+hinzugefügt.
+
+#### Implementierung
+
+Die Funktion "get_candidates" wurde wie folgt implementiert:
+```python
+def get_candidates(sudoku_board):
+    """
+    Berechnet mögliche Werte für die Lücken im Sudoku Boad.
+    Returnt eine List mit den möglichen Werten für die Lücken.
+
+    Beispiel:
+        [[3], [1, 3], [2, 3], [3], [2, 3], [3], [3]]
+        In der ersten Lücke ist mit 3 zu befüllen,
+        in der zweiten Lücke passen 1 und 3.
+    """
+    candidates = []
+    for i in range(len(sudoku_board)):
+        for j in range(len(sudoku_board[0])):
+            if sudoku_board[i][j] != 0:
+                continue
+            tmp = []
+            for possible_value in range(1, len(sudoku_board)+1):
+                is_possible_value = True
+                for row in range(len(sudoku_board)):
+                    if sudoku_board[row][j] == possible_value:
+                        is_possible_value = False
+                for col in range(len(sudoku_board)):
+                    if sudoku_board[i][col] == possible_value:
+                        is_possible_value = False
+
+                if math.sqrt(len(sudoku_board)).is_integer():
+                    for x in range(len(sudoku_board)):
+                        for y in range(len(sudoku_board)):
+                            if not is_in_same_block(i, j, x, y, len(sudoku_board)):
+                                continue
+                            if sudoku_board[x][y] == possible_value:
+                                is_possible_value = False
+                if is_possible_value:
+                    tmp.append(possible_value)
+            candidates.append(tmp)
+    return candidates
+
+```
+
+#### Verwendung
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der 'get_candidates'.
+```python {4}
+def main(request_payload = None, sudoku_board = None):
+    if sudoku_board is None:
+    sudoku_board = request_to_sudoku_board(request_payload)
+    candidates = get_candidates(sudoku_board)
+###...
+```
+
 
 ### Edges
+
+---
+authorName: Felix Schulze Sindern
+authorGithubName: FelixSchuSi
+---
 
 ### Qubit Registry
 
@@ -113,13 +306,302 @@ def main(request_payload = None, sudoku_board = None):
 
 ### Oracle
 
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
+
 ### Diffusor
+Der Diffusor im Grover-Algorithmus ist ein Teil des Algorithmus, der dazu dient, die Wahrscheinlichkeit
+des gesuchten Zustands zu erhöhen. Dieser Teil des Algorithmus besteht aus einer Inversion um den
+Mittelwert (engl. diffusion) und wird auf dem Zustandsvektor der Qubits angewendet.
+
+#### Idee
+Der Code implementiert den Diffusor des Grover-Algorithmus.
+Hierbei wird ein bestimmter Bit-Zustand in einer Superposition von Bit-Zuständen nach unten reflektiert.
+Dies führt dazu, dass der gesuchte Bit-Zustand höher gewichtet wird und somit wahrscheinlicher gemessen werden kann.
+
+Im Einzelnen:
+
+    1. Die Funktion initialize_blanks_inverse setzt die angegebenen Qubits auf eine bestimmte Ausgangsbedingung.
+
+    2. Anschließend wird auf alle angegebenen Qubits eine Pauli-X-Operation ausgeführt.
+
+    3. Danach wird auf das Qubit mit dem Index qubit_registry.value_qubits[1] eine Hadamard-Transformation (H-Gate) angewendet.
+
+    4. Mit dem mct-Gate (Multiple Controlled Toffoli-Gate) wird dann eine spezielle Kontroll-Operation ausgeführt. Dabei werden die Qubits qr[: qubit_registry.value_qubits[1]] als Steuer-Qubits und das Qubit qr[qubit_registry.value_qubits[1]] als Ziel-Qubit verwendet. Zusätzlich werden die Qubits qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1] als Hilfsqubits verwendet. Der Modus "v-chain" legt fest, dass es sich um eine v-förmige Kette von Steuer-Qubits handelt.
+
+    5. Anschließend wird wieder eine Hadamard-Transformation auf das Ziel-Qubit angewendet.
+
+    6. Schließlich wird auf alle angegebenen Qubits eine Pauli-X-Operation ausgeführt.
+
+    7. Die Funktion initialize_blanks setzt die angegebenen Qubits wieder auf den Ausgangszustand zurück.
+#### Implementierung
+Die Funktion "diffusor" wurde wie folgt implementiert:
+```python
+def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
+    """
+    diffusion (inversion about the mean) circuit.
+    note that this implementation gives H^{\otimes n} (Id - |0..0><0...0|) H^{\otimes n}
+    :param circuit:
+    :param qr: QuantumRegister on nodes
+    :return:
+    """
+
+    initialize_blanks_inverse(circuit, qr[: qubit_registry.value_qubits[1] + 1], candidates, qubit_registry)
+
+    circuit.x(qr[: qubit_registry.value_qubits[1] + 1])
+
+    circuit.h(qr[qubit_registry.value_qubits[1]])
+
+    circuit.mct(
+        qr[: qubit_registry.value_qubits[1]],
+        qr[qubit_registry.value_qubits[1]],
+        qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1],
+        mode="v-chain",
+    )
+    circuit.h(qr[qubit_registry.value_qubits[1]])
+    circuit.x(qr[: qubit_registry.value_qubits[1] + 1])
+    initialize_blanks(circuit, qr[: qubit_registry.value_qubits[1] + 1], candidates, qubit_registry)
+
+```
+
+#### Verwendung
+Die Implementierung zeigt die Main-Methode des gesamten Algorithmus. In diesem Abschnitt kommt es auf die
+hervorgehobene Zeile an, die Ausführung des Diffusors.
+```python {7}
+def main(request_payload = None, sudoku_board = None):
+    #..
+        grover_iterations = max(1, int(0.5 * sqrt(prod([len(c) for c in candidates]))))
+        print(f"Grover Iterationen:      {grover_iterations}")
+        for i in range(grover_iterations):
+            simple_oracle(qc, qr, edges, qubit_registry)
+            diffusor(qc, qr, candidates, qubit_registry)
+
+    #..
+```
+
+
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
 
 ### Messen und Ausführen
+Dieser Code führt eine Simulation des entwickelten Quantenalgorithmus aus und misst das Ergebnis.
+#### Idee
+Der Befehl "qc.measure" misst die Zustände des quantenregisters, welche in "qubit_registry.value_qubits" definiert sind.
+Diese Messwerte werden auf die klassischen Register "cr" geschrieben.
+
+Der Befehl "execute" führt die Simulation auf dem "AerSimulator" Backend mit 10000 Wiederholungen aus.
+Das Ergebnis der Simulation wird in der Variablen "result" gespeichert.
+
+#### Implementierung
+Die Implementierung zeigt die Main-Methode des gesamten Algorithmus. In diesem Abschnitt kommt es auf die
+hervorgehobenen Zeilen an, das Messen und Ausführen auf dem Simulator.
+```python {19-27}
+def main(request_payload = None, sudoku_board = None):
+    if sudoku_board is None:
+    sudoku_board = request_to_sudoku_board(request_payload)
+    candidates = get_candidates(sudoku_board)
+    edges = create_edges_from_sudoku_board(sudoku_board=sudoku_board)
+    qubit_registry = CubitRegisty(edges, sudoku_board, candidates)
+    qr = QuantumRegister(qubit_registry.total_qubit_count)
+    cr = ClassicalRegister(qubit_registry.value_qubit_count)
+    qc = QuantumCircuit(qr, cr)
+
+        initialize_blanks(qc, qr, candidates, qubit_registry)
+
+        grover_iterations = max(1, int(0.5 * sqrt(prod([len(c) for c in candidates]))))
+        print(f"Grover Iterationen:      {grover_iterations}")
+        for i in range(grover_iterations):
+            simple_oracle(qc, qr, edges, qubit_registry)
+            diffusor(qc, qr, candidates, qubit_registry)
+
+        qc.measure(
+            qr[qubit_registry.value_qubits[0] : qubit_registry.value_qubits[1] + 1],
+            cr[qubit_registry.value_qubits[0] : qubit_registry.value_qubits[1] + 1],
+        )
+        print("Simulation gestartet")
+        start_time = process_time()
+        job = execute(qc, backend=AerSimulator(), shots=10000)
+        print(f"Simulation dauerte       {process_time() - start_time} Sekunden")
+        result = job.result()
+
+        solved_sudoku = fill_in_gaps(
+            sudoku_board,
+            parse_simulation_result(
+                result.get_counts(),
+                gap_count=sudoku_board.flatten().tolist().count(0),
+                qubit_registry=qubit_registry
+            ),
+        )
+        print("Gefundene Lösung:\n", solved_sudoku)
+        print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}")
+    return solved_sudoku, qc.qasm()
+```
+
+
+
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
 
 ### Ergebnis parsen
+Diese Funktion wandelt das Ergebnis der Simulation in ein interpretierbares Format um.
+#### Idee
+Dazu nimmt die Funktion drei Argumente entgegen:
+
+    - count: ein Dictionary, das die Ergebnisse der Simulation enthält, wobei jeder Schlüssel eine Binärzeichenfolge
+    und jeder Wert die Häufigkeit dieser Zeichenfolge in der Simulation ist.
+
+    - gap_count: die Anzahl der Lücken im Sudoku, die aufgelöst werden sollen
+
+    - qubit_registry: ein Objekt des Typs CubitRegistry, das Informationen über die Anzahl der verwendeten
+     Qubits enthält. Dies ist entscheiden, da je nachdem wie viele Qubits zur Darstellung einer Zahl benötigt werden,
+     entsprechend das Ergebnis geparst werden muss.
+
+Die Funktion sortiert die Ergebnisse nach Häufigkeit und wählt das Ergebnis, welches am häufigsten vorkommt.
+Dazu iteriert die Funktion dann über das Ergebnis und konvertiert jede Binärzeichenfolge in eine Dezimalzahl.
+Die Dezimalzahlen werden zu einem String zusammengefügt und zurückgegeben.
+
+#### Implementierung
+```python
+def parse_simulation_result(count, gap_count, qubit_registry: CubitRegisty) -> str:
+    """
+    Wandelt die Ergebnisse der Simulation in ein interpretierbares Format um.
+    Return ein String, wobei jedes Zeichen des Strings den Inhalt eines freien
+    Feldes vom Sudoku repräsentiert.
+    """
+    best_result = sorted(count.items(), key=lambda x: x[1], reverse=True)[0][0][::-1]
+    result = ""
+    for i in range(0, gap_count * qubit_registry.number_of_qubits, qubit_registry.number_of_qubits):
+
+        tmp = "".join(best_result[i : i + qubit_registry.number_of_qubits])
+        result += str(int(tmp, 2))
+    return result
+
+```
+
+#### Verwendung
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. In diesem Abschnitt kommt es auf die
+hervorgehobene Zeile an, in der die Funktion 'parse_simulation_result' aufgerufen wird.
+```python {11}
+def main(request_payload = None, sudoku_board = None):
+    #...
+        print("Simulation gestartet")
+        start_time = process_time()
+        job = execute(qc, backend=AerSimulator(), shots=10000)
+        print(f"Simulation dauerte       {process_time() - start_time} Sekunden")
+        result = job.result()
+
+        solved_sudoku = fill_in_gaps(
+            sudoku_board,
+            parse_simulation_result(
+                result.get_counts(),
+                gap_count=sudoku_board.flatten().tolist().count(0),
+                qubit_registry=qubit_registry
+            ),
+        )
+        print("Gefundene Lösung:\n", solved_sudoku)
+        print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}")
+    return solved_sudoku, qc.qasm()
+```
+
+
+---
+authorName: Jannik Bergjan
+authorGithubName: jannikbergjan
+---
 
 ### Ergebnis überprüfen und messen
+Die Funktion "is_valid_sudoku_solution" prüft, ob eine gegebene Sudoku-Lösung gültig ist.
+#### Idee
+Es wird eine Schleife über jede Zelle des Sudoku-Boards verwendet, in der jede Zelle mit jeder anderen Zelle in der
+gleichen Zeile und Spalte sowie in den gleichen Quadranten verglichen wird. Wenn eine Übereinstimmung gefunden wird,
+wird False zurückgegeben (d.H. keine korrekte Sudoku Lösung gefunden). Wenn keine Übereinstimmungen gefunden wird,
+wird True zurückgegeben (d.H. keine fehler in der Sudoku Lösung gefunden, Lösung ist korrekt).
+
+#### Implementierung
+Die Funktion "is_valid_sudoku_solution" ist wie folgt implementiert:
+```python
+def is_valid_sudoku_solution(sudoku_board):
+    for rowIndex, row in enumerate(sudoku_board):
+        for colIndex, cell in enumerate(row):
+            for i in range(0, len(sudoku_board)):
+                if (
+                    sudoku_board[rowIndex][i] == sudoku_board[rowIndex][colIndex]
+                    and colIndex != i
+                ):
+                    return False
+                if (
+                    sudoku_board[i][colIndex] == sudoku_board[rowIndex][colIndex]
+                    and rowIndex != i
+                ):
+                    return False
+
+                varRow = rowIndex % 2
+                varCol = colIndex % 2
+                if len(sudoku_board) == 4:
+                    if varCol == 0 and varRow == 0:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex + 1][colIndex + 1]
+                        ):
+                            return False
+                    if varCol == 0 and varRow == 1:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex - 1][colIndex + 1]
+                        ):
+                            return False
+                    if varCol == 1 and varRow == 1:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex - 1][colIndex - 1]
+                        ):
+                            return False
+                    if varCol == 1 and varRow == 0:
+                        if (
+                            sudoku_board[rowIndex][colIndex]
+                            == sudoku_board[rowIndex + 1][colIndex - 1]
+                        ):
+                            return False
+    return True
+
+```
+
+#### Verwendung
+Die Funktion "is_valid_sudoku_solution" wird am Ende der Main Methode aufgerufen.
+Ihr wird das gelöste Sudoku "solved_sudoku" übergeben.
+
+Dazu wird die Simulationsdauer gemessen um am Ende der Simulation die Ausführungszeit zu erhalten.
+Diese wird mittels `print(f"Simulation dauerte       {process_time() - start_time} Sekunden")` berechnet.
+
+```python {18}
+def main(request_payload = None, sudoku_board = None):
+    # ...
+        print("Simulation gestartet")
+        start_time = process_time()
+        job = execute(qc, backend=AerSimulator(), shots=10000)
+        print(f"Simulation dauerte       {process_time() - start_time} Sekunden")
+        result = job.result()
+
+        solved_sudoku = fill_in_gaps(
+            sudoku_board,
+            parse_simulation_result(
+                result.get_counts(),
+                gap_count=sudoku_board.flatten().tolist().count(0),
+                qubit_registry=qubit_registry
+            ),
+        )
+        print("Gefundene Lösung:\n", solved_sudoku)
+        print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}")
+    return solved_sudoku, qc.qasm()
+
+```
+
 
 ## Entwicklung
 
