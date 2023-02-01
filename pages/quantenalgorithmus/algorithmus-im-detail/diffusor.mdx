@@ -1,1 +1,69 @@
 # Diffusor
+Der Diffusor im Grover-Algorithmus ist ein Teil des Algorithmus, der dazu dient, die Wahrscheinlichkeit
+des gesuchten Zustands zu erhöhen. Dieser Teil des Algorithmus besteht aus einer Inversion um den
+Mittelwert (engl. diffusion) und wird auf dem Zustandsvektor der Qubits angewendet.
+
+## Idee
+Der Code implementiert den Diffusor des Grover-Algorithmus.
+Hierbei wird ein bestimmter Bit-Zustand in einer Superposition von Bit-Zuständen nach unten reflektiert.
+Dies führt dazu, dass der gesuchte Bit-Zustand höher gewichtet wird und somit wahrscheinlicher gemessen werden kann.
+
+Im Einzelnen:
+
+    1. Die Funktion initialize_blanks_inverse setzt die angegebenen Qubits auf eine bestimmte Ausgangsbedingung.
+
+    2. Anschließend wird auf alle angegebenen Qubits eine Pauli-X-Operation ausgeführt.
+
+    3. Danach wird auf das Qubit mit dem Index qubit_registry.value_qubits[1] eine Hadamard-Transformation (H-Gate) angewendet.
+
+    4. Mit dem mct-Gate (Multiple Controlled Toffoli-Gate) wird dann eine spezielle Kontroll-Operation ausgeführt. Dabei werden die Qubits qr[: qubit_registry.value_qubits[1]] als Steuer-Qubits und das Qubit qr[qubit_registry.value_qubits[1]] als Ziel-Qubit verwendet. Zusätzlich werden die Qubits qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1] als Hilfsqubits verwendet. Der Modus "v-chain" legt fest, dass es sich um eine v-förmige Kette von Steuer-Qubits handelt.
+
+    5. Anschließend wird wieder eine Hadamard-Transformation auf das Ziel-Qubit angewendet.
+
+    6. Schließlich wird auf alle angegebenen Qubits eine Pauli-X-Operation ausgeführt.
+
+    7. Die Funktion initialize_blanks setzt die angegebenen Qubits wieder auf den Ausgangszustand zurück.
+## Implementierung
+Die Funktion "diffusor" wurde wie folgt implementiert:
+```python
+def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
+    """
+    diffusion (inversion about the mean) circuit.
+    note that this implementation gives H^{\otimes n} (Id - |0..0><0...0|) H^{\otimes n}
+    :param circuit:
+    :param qr: QuantumRegister on nodes
+    :return:
+    """
+
+    initialize_blanks_inverse(circuit, qr[: qubit_registry.value_qubits[1] + 1], candidates, qubit_registry)
+
+    circuit.x(qr[: qubit_registry.value_qubits[1] + 1])
+
+    circuit.h(qr[qubit_registry.value_qubits[1]])
+
+    circuit.mct(
+        qr[: qubit_registry.value_qubits[1]],
+        qr[qubit_registry.value_qubits[1]],
+        qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1],
+        mode="v-chain",
+    )
+    circuit.h(qr[qubit_registry.value_qubits[1]])
+    circuit.x(qr[: qubit_registry.value_qubits[1] + 1])
+    initialize_blanks(circuit, qr[: qubit_registry.value_qubits[1] + 1], candidates, qubit_registry)
+
+```
+
+## Verwendung
+Die Implementierung zeigt die Main-Methode des gesamten Algorithmus. In diesem Abschnitt kommt es auf die
+hervorgehobene Zeile an, die Ausführung des Diffusors.
+```python {7}
+def main(request_payload = None, sudoku_board = None):
+    #..
+        grover_iterations = max(1, int(0.5 * sqrt(prod([len(c) for c in candidates]))))
+        print(f"Grover Iterationen:      {grover_iterations}")
+        for i in range(grover_iterations):
+            simple_oracle(qc, qr, edges, qubit_registry)
+            diffusor(qc, qr, candidates, qubit_registry)
+
+    #..
+```
