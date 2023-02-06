@@ -9,3 +9,21 @@ div[title="Export"]
     display: none;
 }
 }
+
+.footnotes {
+    opacity: 50%;
+    border-color: hsl(var(--nextra-primary-hue)100% 94%/.1);
+    border-top-width: 1px;
+}
+
+.footnotes > h2 {
+    display: none;
+}
+
+sup > a::before {
+    content: "[";
+}
+
+sup > a::after {
+    content: "]";
+}

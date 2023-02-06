@@ -1,1 +1,45 @@
+---
+authorName: Felix Schulze Sindern
+authorGithubName: FelixSchuSi
+---
+
 # Demo Anwendung
+
+
+Mit dieser Anwendung können Quantenalgorithmen zur Lösung von Sudoku-Rätseln erstellt werden.
+Die erstellten Quantenalgorithmen können mit dieser Anwenung:
+1. direkt auf einem Simulator ausgeführt werden, oder
+2. als QASM[^1] exportiert und anschließend auf QASM kompatibler Quantenhardware ausgeführt werden
+
+## Live-Demo
+
+Das zu lösende Sudoku-Rätsel lässt sich über die Weboberfläche eingeben.
+Die Funktion der Anwendung wird anhand der Live-Demo ersichtlich.
+<br />
+<video controls>
+  <source src="../../live_demo.mp4" type="video/mp4" />
+</video>
+
+## Architektur
+
+Die Anwendung besteht aus zwei Komponenten - dem Frontend und dem Backend.
+<img src="../../komponentendiagramm.png" />
+Nachdem der Benutzer das zu lösende Sudoku-Rätsel eingegeben hat wird ein
+HTTP-POST Call an das Backend der Anwendung gesendet.
+Das Backend ersteltt daraufhin den Quantenalgorithmus und stößt die Simulation an.
+Nachdem die Simulation abgeschlossen ist, werden die Logs, sowie der Quantenschaltkreis im QASM Format an das Frontend zurück gesendet.
+
+## Installation
+1. Python >= 3.8 installieren
+2. Dependencies installieren
+`pip install -r requirements.txt`
+3. Anwendung starten
+`FLASK_APP=rest_api.py flask run`
+
+$Env:FLASK_APP = "rest_api.py"
+
+
+
+### Referenzen
+
+[^1]: QASM ist eine offener Standard zur Beschreibung von Quantenschaltkreisesn. Siehe https://openqasm.com/ 
