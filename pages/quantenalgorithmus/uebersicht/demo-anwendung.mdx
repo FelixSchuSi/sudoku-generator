@@ -20,23 +20,29 @@ Die Funktion der Anwendung wird anhand der Live-Demo ersichtlich.
   <source src="../../live_demo.mp4" type="video/mp4" />
 </video>
 
+Nachdem das Sudoku-Rätsel eingegeben und der `Solve Sudoku` Button geklickt wurde, wird der Quantenschaltkreis erstellt und die Simulation gestartet.
+Bei Fertigstellung der Simulation werden die im Backend erstellten **Logs**, sowie der **Quantenschaltkreis im QASM Format** dargestellt.
+
+Anhand der Logs kann nachvollzogen werden, wie der Quantenschaltkreis aufgebaut ist und welche Lösung des Sudokus bei der Simulation gefunden wurde.
+
+Der QASM Code kann verwendet werden um den Quantenschaltkreis auf anderen Simulatoren oder auf echter Quantenhardware auszuführen.
 ## Architektur
 
 Die Anwendung besteht aus zwei Komponenten - dem Frontend und dem Backend.
 <img src="../../komponentendiagramm.png" />
 Nachdem der Benutzer das zu lösende Sudoku-Rätsel eingegeben hat wird ein
 HTTP-POST Call an das Backend der Anwendung gesendet.
-Das Backend ersteltt daraufhin den Quantenalgorithmus und stößt die Simulation an.
+Das Backend ersteltt daraufhin den Quantenschaltkreis und stößt die Simulation an.
 Nachdem die Simulation abgeschlossen ist, werden die Logs, sowie der Quantenschaltkreis im QASM Format an das Frontend zurück gesendet.
 
-## Installation
-1. Python >= 3.8 installieren[^2]
-2. Dependencies installieren
+## Demo Anwendung lokal installieren und ausführen
+1. Repository klonen
+`git clone ... && cd ...`
+2. Python >= 3.8 installieren[^2]
+3. Dependencies installieren
 `pip install -r requirements.txt`
-3. Anwendung starten
+4. Anwendung starten
 `FLASK_APP=rest_api.py flask run`
-
-### Referenzen
 
 [^1]: QASM ist eine offener Standard zur Beschreibung von Quantenschaltkreisesn. Siehe https://openqasm.com/ 
 [^2]: Ein Tutorial zur Installation von Python ist unter https://www.python.org/downloads/ zu finden.
