@@ -43,3 +43,8 @@ sup > a::before {
 sup > a::after {
     content: "]";
 }
+
+.endzustand {
+    height: 100px;
+    /* float: right; */
+}

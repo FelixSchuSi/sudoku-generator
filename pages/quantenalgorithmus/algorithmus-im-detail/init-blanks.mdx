@@ -1,1 +1,115 @@
-# Init Blanks
+---
+authorName: Felix Schulze Sindern
+authorGithubName: FelixSchuSi
+---
+
+# Initialize Blanks
+
+Jedes Sudoku Rätsel hat einige Felder vorbelegt und einige Felder die leer sind.
+Bei dem von uns gewählten Vorgehen wird jedes leere Feld anhand von $n$ Qubits repräsentiert.
+
+Bei einem 2x2 Sudoku werden beispielsweise zwei Qubits für jedes leere Feld benötigt.
+Durch geschicktes Initialisieren der Qubit-Paare können wir die möglichen Endzustände eines leeren Felder einschränken.
+Dadurch kann die Anzahl der möglichen Lösungen stark reduziert und die Simulation somit deutlich beschleunigt werden.
+
+## Idee
+
+Würden wir beide Qubits in Superposition ohne Verschränkung initialisieren, könnte das leere Feld alle Werte von eins
+bis vier annehmen.
+Dieser Quantenzustand kann wiefolgt beschrieben werden:
+$\frac{1}{2}|00\rangle + \frac{1}{2}|01\rangle + \frac{1}{2}|10\rangle + \frac{1}{2}|11\rangle$
+Dabei beschreibt $|00\rangle$ den Zustand, dass das Feld die Zahl eins enthält und $|01\rangle$
+den Zustand, dass das Feld die Zahl zwei enthält usw...
+
+Möchten wir stattdessen nur die Zahlen eins und vier zulassen (also die Zustände zwei und drei verbieten)
+können wir folgenden Quantenzustand nutzen:
+$\frac{1}{\sqrt{2}}|00\rangle + \frac{1}{\sqrt{2}}|11\rangle$
+{/* Mit der `get_candidates` Funktion können wir herausfinden, welche Zahlen in ein leeres Feld kommen können. */}
+
+Die **`initialize_blanks`** Methode ermöglicht die Verschränkung der Qubits eines leeren Feldes, sodass nur die
+übergebenen Endzustände eintreten können.
+Dabei arbeitet die Funktion unabhängig von der Anzahl der Qubits pro Feld $(n)$ und kann somit für jedes
+Sudoku verwendet werden.
+
+In der Demo-Anwendung verwenden wir im ersten Schritt die [`get_candidates`](/quantenalgorithmus/algorithmus-im-detail/candidates)
+Funktion um herausfinden, welche Zahlen in ein leeres Feld kommen können um anschließend die erwüschten Zustände mit der
+`initialize_blanks` Funktion zu initialisieren.
+
+
+## Erster Implementierungsansatz (verworfen)
+Es können Quantengatter verwendet werden, um die Endzustände der Quantenpaare zu einzuschränken.
+Der Quantenzustand $\frac{1}{2}|00\rangle + \frac{1}{2}|01\rangle + \frac{1}{2}|10\rangle + \frac{1}{2}|11\rangle$
+kann beispielsweise erreicht werden, indem auf beiden Qubits ein Hadamard Gatter angewendet wird:
+<img alt="Quantenschaltkreis mit zwei Qubits, auf beiden wurde ein Hadamard Gatter angewendet" class="endzustand" src="/endzustaende_1_2_3_4.png" />
+Der Endzustand $\frac{1}{\sqrt{2}}|00\rangle + \frac{1}{\sqrt{2}}|11\rangle$ kann durch eine Kombination von einem Hadamard und einem CNOT Gatter erreicht werden:
+<img class="endzustand" src="/endzustaende_1_4.png" />
+
+Das Problem mit diesem Ansatz liegt in der Skalierbarkeit.
+Es muss eine feste Abfolge von Gattern für jede Kombination der möglichen Endzustände gefunden und implementiert werden.
+Allein zur vollen Unterstützung von 2x2 Sudoku müssten 32 verschiedene Gatterabfolgen implementiert werden.
+Zusätzlich müsseten zur Unterstützung von 3x3 und 4x4 Sudokus Manuell hunderte weitere Gatterabfolgen gefunden werden.
+
+## Implementierung
+Glücklicherweise gibt es mit Qiskit eine einfache Möglichkeit, die Endzustände der Qubits zu initialisieren.
+Dabei wird die [`initialize`](https://qiskit.org/documentation/stubs/qiskit.circuit.QuantumCircuit.initialize.html) Funktion
+von Qiskit verwendet.
+Diese Funktion erwartet als Parameter einen Vektor, der die Wahrscheinlichkeiten der möglichen Zustände enthält.
+Die dafür benötigten Gatter werden von Qiskit automatisch generiert.
+
+Der Vector für den Zustand $\frac{1}{2}|00\rangle + \frac{1}{2}|01\rangle + \frac{1}{2}|10\rangle + \frac{1}{2}|11\rangle$
+sieht wie folgt aus:
+
+$vector = [\frac{1}{\sqrt{4}},\frac{1}{\sqrt{4}},\frac{1}{\sqrt{4}},\frac{1}{\sqrt{4}}]$ 
+
+Dabei beschreibt der erste Wert im Vector die Wahrscheinlichkeit für Endzustand $|00\rangle$ und der
+zweite Wert die Wahrscheinlichkeit für den Endzustand $|01\rangle$, usw...
+
+
+Durch die Verwendung dieser Funktion können wir die Endzustände der Qubits beliebig wählen, die Implementierung ist dabei
+unabhängig von der Anzahl der Qubits pro Feld.
+
+## Verwendung
+Wie bereits erwähnt nutzen wir die `get_candidates` Funktion um herauszufinden, welche Zahlen in ein leeres Feld kommen können.
+Um an die ermittelten Candidates an Qiskits
+[`initialize`](https://qiskit.org/documentation/stubs/qiskit.circuit.QuantumCircuit.initialize.html) Funktion übergeben zu
+können müssen wir zunächst den dementsprechenden Vector ermitteln.
+Dazu wurde die Funktion `get_desired_vector` implementiert.
+
+
+```python 
+def get_desired_vector(cands, num_qubits):
+    '''
+    Erzeugt ein Array, welches den Statevector der value_qubit-Paare darstellt.
+    Ein Paar sind die Qubits die zur Darstellung einer leeren Zelle im Sudoku benötigt werden.
+    In einem 4x4-Sudoku werden beispielsweise 2 Qubits pro Zahl bzw. leerer Zelle benötigt (Zahlen 0-3 bzw. 00, 01, 10, 11).
+    Cands gibt die Zahlen an, die das Paar annehmen kann. (Hinweis: Cands enthällt die Sudoku-Zahlen (1, 2, 3, 4))
+    Beispiel:
+    cands = [3, 4]
+    desired_vector = [0, 0, 1/sqrt(2), 1/sqrt(2)]
+    '''
+    cands.sort()
+    result = [0] * 2**num_qubits
+    for candidate in cands:
+        # candidate  --> binär --> führende nullen ergänzen --> binär rückwarts --> dezimal (index fürs ziel array)
+        candidate = candidate - 1
+        binary = bin(candidate)[2:]
+        binary_with_leading_zeroes = "0" * (num_qubits - len(binary)) + binary
+        binary_reverse = binary_with_leading_zeroes[::-1]
+        reversed_int = int(binary_reverse, 2)
+        result[reversed_int] = 1 / math.sqrt(len(cands))
+    return result
+
+```
+
+Die `initialize_blanks` Funktion sieht wiefolgt aus:
+
+```python
+def initialize_blanks(qc, qr, candidates, qubit_registry: CubitRegisty):
+    for i in range(len(candidates)):
+        qubit_range_of_blank = [qubit_registry.number_of_qubits * i + num for num in range(qubit_registry.number_of_qubits)]
+        candidate_operation_state_vector(qc, qubit_range_of_blank, candidates[i])
+```
+`candidate_operation_state_vector` macht folgendes:
+1. Übersetzt mittels `get_desired_vector` die Candidates in einen Vector, der von Qiskit verstanden wird.
+2. Erstellt einen neuen Quantenschaltkreis,ruft `qc.initialize` auf, um die Qubits entsprechend zu initialisieren.
+3. Hängt den neuen Quantenschaltkreis an den bestehenden Quantenschaltkreis an.
