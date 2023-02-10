@@ -72,10 +72,10 @@ const config: DocsThemeConfig = {
           {authorName && authorGithubName && <div style={{ display: 'flex', flexDirection: "row", marginTop: "1em", alignItems: "center" }}>
             <Link href={`https://github.com/${authorGithubName}`}><img alt={authorName} style={{ borderRadius: "50%", height: "3em", aspectRatio: "1 / 1" }} src={`https://github.com/${authorGithubName}.png`} /></Link>
             <div style={{ display: 'flex', flexDirection: 'column', marginLeft: "1em" }}>
-              <p style={{ color: "rgba(156,163,175,var(--tw-text-opacity))", fontSize: ".875rem", textAlign: 'left' }}>Author</p>
-              <Link href={`https://github.com/${authorGithubName}`} style={{ fontSize: "1.2em"}} className="nx-font-medium nx-text-gray-500 hover:nx-text-gray-900 dark:nx-text-gray-400 dark:hover:nx-text-gray-100 contrast-more:nx-text-gray-800 contrast-more:dark:nx-text-gray-50">{authorName}</Link>
+              <p style={{ color: "rgba(156,163,175,var(--tw-text-opacity))", fontSize: ".875rem", textAlign: 'left' }}>Autor</p>
+              <Link href={`https://github.com/${authorGithubName}`} style={{ fontSize: "1.2em" }} className="nx-font-medium nx-text-gray-500 hover:nx-text-gray-900 dark:nx-text-gray-400 dark:hover:nx-text-gray-100 contrast-more:nx-text-gray-800 contrast-more:dark:nx-text-gray-50">{authorName}</Link>
             </div>
-          </div>} 
+          </div>}
           <p>Zuletzt aktualisiert am {new Intl.DateTimeFormat('de', { dateStyle: 'long' }).format(timestamp)}</p>
         </div>
     }

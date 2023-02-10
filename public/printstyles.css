@@ -46,5 +46,13 @@ sup > a::after {
 
 .endzustand {
     height: 100px;
-    /* float: right; */
+}
+
+.authors .nextra-callout {
+    margin-top: 0;
+    padding-left: 1rem;
+}
+
+.authors .nextra-callout .nx-select-none {
+    display: none;
 }
