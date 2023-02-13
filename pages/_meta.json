@@ -1,8 +1,7 @@
 {
     "index": {
-        "title": "Sudoku Generator",
-        "type": "page",
-        "display": "hidden"
+        "title": "Home",
+        "type": "page"
     },
     "basiswissen": {
         "title": "Basiswissen",
