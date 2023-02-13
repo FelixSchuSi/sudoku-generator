@@ -3,14 +3,45 @@ import { Callout } from 'nextra-theme-docs';
 
 # Sudoku Generator
 
-TODO:
- - Projekt Kontext beschrieben
- - Vorgehensweise beschrieben
- - Shoutout an Japaner
- - Auf die Demo Anwendung verweisen
+Mit diesem Projekt wird demonstriert, wie Sudoku Rätsel mit Hilfe von Quantenrechnern gelöst werden können.
+Dazu wird abhängig vom zu lösenden Sudoku ein Quantenschaltkreis mit IBM Qiskit generiert.
+Auf dieser Website wird die Funktionsweise der Anwendung Schritt für Schritt beschrieben.
+
+## Motivation
+Es ist bekannt, dass das Lösen von Sudoku Rätseln ein NP vollständiges Problem ist[^1][^2].
+Das bedeutet, dass es nicht möglich ist, in polynomialer Zeit eine Lösung zu finden.
+Die bestmögliche bekannte Laufzeitkomplexität liegt somit bei $O(n^2)$.
+
+Mithilfe von Quantencomputern und unter Verwendung des Grover Algorithmus kann das Lösen
+von Sudoku Rätseln in $O(\sqrt{n})$ gelöst werden. 
+Zum jetzigen Zeitpunt ist das Lösen solcher Rätsel mit echten Quantenrechnern nicht möglich,
+da die heutige Quantenhardware zu wenige Qubits bietet und noch zu fehleranfällig ist.
+
+Trotzdem sind für Softwareentwickler schon heute Kenntnisse über die Funktionsweise von Quantencomputern und das Entwickeln von
+Quantenalgorithmen von Interesse um für die Zukunft gerüstet zu sein.
+
+## Die Anwendung
+Es wurde eine Anwendung entwickelt, welche unter Angabe eines Sudoku Rätsels
+einen Quantenschaltkreis zur Lösung des Rätsels generiert.
+
+Der erstellte Quantenschaltkreis kann anschließend auf einem Simulator ausgeführt,
+oder im QASM[^3] Format exportiert werden. Der QASM Code kann verwendet werden, um den
+Schaltkreis auf echter Quantenhardware auszuführen zu lassen.
+
+Mehr Informationen zur Anwendung inklusive einer Live-Demonstration ist [hier](/quantenalgorithmus/uebersicht/demo-anwendung) zu fiden. 
+
+## Der Quantenalgorithmus
+
+Der entwickelte Quantenalgorithmus setzt den [Grover Algorithmus](/basiswissen/grover) ein.
+Unsere Implementierung basiert auf einen Ansatz, der im Rahmen des Hackathons "Qiskit Camp Asia 2019"
+vom Github User [yoooopeeee](https://github.com/yoooopeeee) entwickelt wurde.
+Unsere Erweiterung bewirkt, dass der Algorithmus nicht wie zuvor nur gewisse 4x4 Sudokus, sondern
+jegliche Sudoku Rätsel mit beliebiger Größe lösen kann[^4].
+
+Der genaue Aufbau, sowie die einzelnen Bestandteile des Quantenalgorithmus ist [hier](/quantenalgorithmus/uebersicht/bestandteile) beschrieben.
 
 ## Autoren
-<div class="authors" style={{ display: 'flex', flexDirection: "row", gap: "1rem", flexWrap: "wrap", marginTop: "1rem" }}>
+<div className="authors" style={{ display: 'flex', flexDirection: "row", gap: "1rem", flexWrap: "wrap", marginTop: "1rem" }}>
 {/* Tizian */}
     <Link href="https://github.com/tizianl">
         <Callout emoji="" type="info">
@@ -50,3 +81,8 @@ TODO:
         </Callout>
     </Link>
 </div>
+
+[^1]: Siehe https://algoholic.dev/algorighms-theory/computational-complexity-theory-and-P-vs-NP
+[^2]: Siehe https://fse.studenttheses.ub.rug.nl/22745/1/bMATH_2020_HoexumES.pdf.pdf
+[^3]: QASM ist eine offener Standard zur Beschreibung von Quantenschaltkreisesn. Siehe https://openqasm.com/ 
+[^4]: Ab einer gewissen Größe schlägt die Ausführung des Simulators aufgrund von Ressourcenmangel fehl. Theoretisch ist jedoch jedes Sudoku-Rätsel lösbar.
