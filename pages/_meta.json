@@ -18,5 +18,9 @@
     "benchmarks": {
         "title": "Benchmarks",
         "type": "page"
+    },
+    "poster": {
+        "title": "Poster",
+        "type": "page"
     }
 }
