@@ -29,7 +29,7 @@ export FLASK_APP=rest_api.py flask run
 ```
 Zur Entwicklung ist es häufig praktischer die Anwendung **direkt aus dem Jupyter Notebook** zu starten.
 Dadurch musst du nicht jedes Mal das zu lösende Sudoku nicht manuell ins Frontend eingeben.
-Das zu lösende Sudoku musst du an dieser Stelle im `sudoku_grover.ipynb` Notebook hinterlegen.
+Das zu lösende Sudoku musst du bei main Aufruf im `sudoku_grover.ipynb` Notebook hinterlegen.
 Um ein Sudoku in das passende Format zu bringen kannst du das Sudokuk zuerst im Frontend eingeben
 um dann den JSON-Payload in den Browser Devtools abgreifen zu können.
 
@@ -47,7 +47,7 @@ Du kannst die Tests folgender Maßen ausführen:
 ```bash
 python -m unittest discover
 ```
-Von besonderem Interesse sind die Tests in der `test_sudokus.py` Datei.
+Von besonderem Interesse sind die Tests in der [`test_sudokus.py`](https://github.com/FelixSchuSi/sudoku-generator/blob/main/app/test_sudokus.py) Datei.
 In dieser Datei haben wir einige Sudoku Rätsel hinterlegt, welche die Anwendung lösen kann.
 Im Test werden dieses Sudokus vom Simulator gelöst und anschließend wird die Lösung auf korrektheit geprüft.
 Durch diese Tests konnten wir sicherstellen, dass wir nicht ausversehen Regressionen einführen.
