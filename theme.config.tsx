@@ -16,7 +16,7 @@ const config: DocsThemeConfig = {
       switch (locale) {
         case "de":
         default:
-          return <p>Von Tizian Lengemann, Jannik Bergjan und <a className="nx-font-medium nx-text-gray-500 hover:nx-text-gray-900 dark:nx-text-gray-400 dark:hover:nx-text-gray-100 contrast-more:nx-text-gray-800 contrast-more:dark:nx-text-gray-50" href="https://github.com/FelixSchuSi">Felix Schulze Sindern</a></p>
+          return <p>Von <a className="nx-font-medium nx-text-gray-500 hover:nx-text-gray-900 dark:nx-text-gray-400 dark:hover:nx-text-gray-100 contrast-more:nx-text-gray-800 contrast-more:dark:nx-text-gray-50" href="https://github.com/tizianl">Tizian Lengemann</a>, <a className="nx-font-medium nx-text-gray-500 hover:nx-text-gray-900 dark:nx-text-gray-400 dark:hover:nx-text-gray-100 contrast-more:nx-text-gray-800 contrast-more:dark:nx-text-gray-50" href="https://github.com/jannikbergjan">Jannik Bergjan</a> und <a className="nx-font-medium nx-text-gray-500 hover:nx-text-gray-900 dark:nx-text-gray-400 dark:hover:nx-text-gray-100 contrast-more:nx-text-gray-800 contrast-more:dark:nx-text-gray-50" href="https://github.com/FelixSchuSi">Felix Schulze Sindern</a></p>
       }
     }
   },

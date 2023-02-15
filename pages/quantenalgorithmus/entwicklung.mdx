@@ -3,4 +3,55 @@ authorName: Felix Schulze Sindern
 authorGithubName: FelixSchuSi
 ---
 
+import { Callout } from 'nextra-theme-docs'
+
 # Entwicklung
+
+Du willst den Quantenalgorithmus weiterentwickeln und hast noch keine Ahnung wie? Kein Problem!
+Wir haben dir hier eine kleine Anleitung zusammengestellt, wie du den Algorithmus auf deinem Rechner zum Laufen bringst.
+
+Zuerst solltest du unsere Version der Anwendung lokal zum laufen bringen. Schau dir dazu die Anleitung im
+Kapitel [Demo Anwendung](/quantenalgorithmus/uebersicht/demo-anwendung#demo-anwendung-lokal-installieren-und-ausführen) an.
+
+## Entwicklungsumgebung
+
+Zur Entwicklung kannst du eine IDE deiner Wahl verwenden. Wir haben Visual Studio Code[^1] gewählt.
+Die IDE sollte Python unterstützen und optional Jupyter Notebooks (andernfalls kannst du lokal eine jupyterlab Instanz[^2] starten). 
+
+## Anwendung ausführen
+
+Du hast die Option die **Anwendung inklusive Frontend** zu starten.
+Dazu solltest musst du die `FLASK_APP` Umgebungsvariable auf `rest_api.py` setzen und anschließend die Anwendung mit `flask run` starten.
+Auf Linux und MacOS kann dies mit folgendem Befehl geschehen:
+
+```bash
+export FLASK_APP=rest_api.py flask run
+```
+Zur Entwicklung ist es häufig praktischer die Anwendung **direkt aus dem Jupyter Notebook** zu starten.
+Dadurch musst du nicht jedes Mal das zu lösende Sudoku nicht manuell ins Frontend eingeben.
+Das zu lösende Sudoku musst du an dieser Stelle im `sudoku_grover.ipynb` Notebook hinterlegen.
+Um ein Sudoku in das passende Format zu bringen kannst du das Sudokuk zuerst im Frontend eingeben
+um dann den JSON-Payload in den Browser Devtools abgreifen zu können.
+
+ 
+<Callout emoji="⚠️">
+Falls du Änderungen im `sudoku_grover.ipynb` gemacht hast und diese in der Anwendung sehen möchtest,
+musst du das Notebook zuvor in die `sudoku_grover.py` Datei übersetzen.
+</Callout>
+
+## Tests
+
+Bei der Entwicklung der Anwendung haben wir Tests verwenden um sicherzustellen, dass die Anwendung korrekt funktioniert.
+Du kannst die Tests folgender Maßen ausführen:
+
+```bash
+python -m unittest discover
+```
+Von besonderem Interesse sind die Tests in der `test_sudokus.py` Datei.
+In dieser Datei haben wir einige Sudoku Rätsel hinterlegt, welche die Anwendung lösen kann.
+Im Test werden dieses Sudokus vom Simulator gelöst und anschließend wird die Lösung auf korrektheit geprüft.
+Durch diese Tests konnten wir sicherstellen, dass wir nicht ausversehen Regressionen einführen.
+
+
+[^1]: Siehe https://code.visualstudio.com/
+[^2]: Siehe https://jupyter.org/install
