@@ -4,3 +4,67 @@ authorGithubName: tizianl
 ---
 
 # Edges
+
+Die Funktion „create_edges_from_sudoku_board“ gibt die Verbindungen zwischen den leeren Feldern zurück. Dabei symbolisiert die 0 ein leeres Feld. Der Algorithmus erzeugt einen Graphen, sodass im Anschluss das Problem in ein Färbungsproblem umgewandelt werden kann.
+
+## Idee
+
+
+Diese Funktion erstellt einen Graphen aus den Lücken im Sudoku- Spielfeld.
+Dafür werden die Lücken mit der Zahl 0 mit den entsprechenden anderen Feldern mit der Zahl 0 nach den Sudoku-Regeln verbunden. Dies wird in dem nachfolgenden Bild dargestellt. 
+
+
+Edgesbild1
+
+## Implementierung
+
+
+Der Algorithmus hat zwei Hauptabschnitte:
+Der erste Teil des Algorithmus geht jeden Eintrag im Sudoku-Board durch.  Wenn die Zelle 0 ist, was einem leeren Feld entspricht, wird ein neuer Knoten mit den x- und y-Koordinaten dieses Feldes zur Liste der bestehenden Knoten hinzugefügt. 
+```
+for rowIndex, row in enumerate(sudoku_board):
+        for colIndex, cell in enumerate(row):
+            if cell != 0:
+                continue
+            existing_nodes.append(
+                {"gap_index": current_gap_index, "y": rowIndex, "x": colIndex}
+            )
+            current_gap_index = current_gap_index + 1
+```
+
+
+Der nächste Codeabschnitt erzeugt die Verbindungen zwischen den Knoten. Dabei werden die Kanten zwischen Knoten, die sich horizontal, vertikal oder im gleichen Block befinden, erstellt.
+Am Ende werden die erstellten Verbindungen zurückgegeben. Dies sorgt dafür, dass die Knoten, die eine mögliche Lösung für das gleiche Feld darstellen, nicht die gleiche Farbe haben können und somit die Regeln des Sudokus eingehalten werden.
+
+
+```
+for node in existing_nodes:
+        for other_node in existing_nodes:
+            if node["gap_index"] == other_node["gap_index"]:
+                continue
+            # Lücken in derselben Zeile finden
+            if node["y"] == other_node["y"]:
+                # ist diese Kante schon anders herum erfasst worden?
+                if [other_node["gap_index"], node["gap_index"]] not in edges:
+                    edges.append([node["gap_index"], other_node["gap_index"]])
+            # Lücken in derselben Spalte finden
+            if node["x"] == other_node["x"]:
+                # ist diese Kante schon anders herum erfasst worden?
+                if [other_node["gap_index"], node["gap_index"]] not in edges:
+                    edges.append([node["gap_index"], other_node["gap_index"]])
+
+            # Add edges for quadrants if quadrants exist
+            if has_quadrants and is_in_same_block(
+                node["y"], node["x"], other_node["y"], other_node["x"], len(sudoku_board)
+            ):
+                if [other_node["gap_index"], node["gap_index"]] not in edges and [node["gap_index"], other_node["gap_index"]] not in edges:
+                    edges.append([node["gap_index"], other_node["gap_index"]])
+```
+
+## Verwendung
+
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der „create_edges_from_sudoku_board“.
+
+```
+edges = create_edges_from_sudoku_board(sudoku_board=sudoku_board)
+```
