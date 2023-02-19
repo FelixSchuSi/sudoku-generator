@@ -4,3 +4,105 @@ authorGithubName: tizianl
 ---
 
 # Bestandteile
+
+Der Algorithmus beginnt, nachdem das Front-End die JSON-Daten übergeben hat. Der erste Schritt besteht darin, mögliche Lösungen für die leeren Felder zu berechnen. 
+```
+candidates = get_candidates(sudoku_board) 
+```
+ Sudukobild 1
+      
+      
+Anschließend werden diese Kandidaten in einem zweidimensionalen Array nacheinander gespeichert, wie in dem Beispiel gezeigt: [[1,4], [1], [1,2],[1],[1], [1,3],[1], [1,4]]. 
+
+Nachdem die Kandidaten berechnet wurden, wird aus dem Sudoku ein Graph erstellt. Dieser Graph soll die Verbindungen zwischen den Lücken aufzeigen. Die Idee dahinter ist, dass das Problem auf diese Weise in ein Färbungsproblem umgewandelt wird.
+      
+ ```    
+ edges = create_edges_from_sudoku_board(sudoku_board=sudoku_board) 
+ ```   
+
+ Sudukobild2
+ 
+ 
+Der nächste Schritt besteht darin, einen Überblick über die Qubits zu erhalten und wichtige Eckdaten für den Algorithmus zu sammeln. Dabei werden die Qubits in unterschiedliche Bereiche eingeteilt, wie z.B. value qubits, die die Ergebnisse liefern und Hilfsqubits, die oft für bestimmte Teile des Algorithmus verwendet werden und häufig wiederverwendet werden. Eine wichtige Eckdaten, die für den Algorithmus gesammelt wird, ist die Gesamtanzahl der Qubits 
+
+
+```      
+qubit_registry = CubitRegisty(edges, sudoku_board, candidates) 
+qubit_registry = CubitRegisty(edges, sudoku_board, candidates) 
+```
+ 
+
+Mit den gesammelten Informationen über das Cubitregister werden ein Quantenregister, ein Classikregister und ein Quantumcircuit erzeugt. Diese drei Komponenten sind die Grundbausteine für die Ausführung des Algorithmus auf einem Quantencomputer. Das Quantenregister enthält die Qubits, die für die Berechnungen verwendet werden, das Classikregister speichert die Ergebnisse und das Quantumcircuit enthält die Anweisungen, die auf den Qubits ausgeführt werden. 
+
+ ```     
+ qr = QuantumRegister(qubit_registry.total_qubit_count) 
+ cr = ClassicalRegister(qubit_registry.value_qubit_count) 
+ qc = QuantumCircuit(qr, cr)
+ ```
+
+Im nächsten Schritt werden der erstellte Graph und die berechneten Kandidaten zusammengeführt. Dies geschieht, indem die Kandidaten als mögliche Lösungen für die Knoten des Graphen verwendet werden. Auf diese Weise kann der Algorithmus die Verbindungen zwischen den Knoten und die möglichen Lösungen berücksichtigen, um eine richtige Lösung zu finden. 
+
+```
+initialize_blanks(qc, qr, candidates, qubit_registry) 
+```
+
+
+
+Die möglichen Lösungen werden dann in die Value-Qubits programmiert. Dieser Vorgang wird später genauer erläutert. Es ist jedoch wichtig zu wissen, dass die Value-Qubits nur Werte der Kandidaten annehmen können. Zudem können die ersten beiden Value-Qubits nur die Werte 0 oder 3 annehmen. Am Ende müssen die Ergebnisse um 1 erhöht werden, um wieder auf die ursprünglichen Kandidatenwerte von 1 und 4 zurückzukommen. Dieser Schritt wird jedoch erst am Ende durchgeführt. 
+
+Der nächste Schritt besteht darin, die Anzahl der erforderlichen Grover-Iterationen zu  
+
+Berechnen 
+
+```
+grover_iterations = max(1, int(0.5 * sqrt(prod([len(c) for c in candidates])))) 
+```
+ 
+
+Nachdem die Anzahl der erforderlichen Grover-Iterationen berechnet wurde, werden diese Iterationen durchgeführt. In jeder Iteration werden sowohl das Oracle als auch der Diffusor angewendet. Das Oracle ist eine Funktion, die dazu verwendet wird, die Lösung des Problems zu markieren und die Diffusor ist eine Funktion, die dazu verwendet wird, die Wahrscheinlichkeit der Lösung zu erhöhen. Durch die Wiederholung dieser Schritte wird die Wahrscheinlichkeit der Lösung sukzessive erhöht, bis die richtige Lösung gefunden wird. 
+
+ 
+
+ 
+```
+simple_oracle(qc, qr, edges, qubit_registry) 
+diffusor(qc, qr, candidates, qubit_registry) 
+```
+ 
+
+Nach Abschluss der Iterationen, werden die Value-Qubits auf die klassischen Qubits gemessen. Dieser Prozess der Messung führt dazu, dass die Qubits in klassischen Bitwerte umgewandelt werden. Diese Bitwerte repräsentieren die erhaltenen Ergebnisse des Algorithmus. 
+
+ 
+```
+qc.measure( 
+   qr[qubit_registry.value_qubits[0] : qubit_registry.value_qubits[1] + 1], 
+   cr[qubit_registry.value_qubits[0] : qubit_registry.value_qubits[1] + 1], 
+) 
+```
+
+ 
+
+Zuletzt wird der erstellte Quantenschaltkreis auf einem AER-Simulator ausgeführt. Dadurch erhalten wir eine Verteilung von Ergebnissen. Das Ergebnis, das am häufigsten vorkommt, wird als die Lösung des Problems angenommen. Dieser Bit-Stream wird dann geparst und in die Größe der Sudoku-Felder unterteilt. Anschließend werden die richtigen Werte den entsprechenden Feldern zugeordnet und wir erhalten die Lösung des Sudokus. 
+```
+print("Simulation gestartet") 
+start_time = process_time() 
+job = execute(qc, backend=AerSimulator(), shots=10000) 
+print(f"Simulation dauerte {process_time() - start_time} Sekunden") 
+result = job.result() 
+```
+ 
+
+Zum Schluss wird die Lösung zurückgegeben und überprüft, ob sie korrekt ist. Diese Überprüfung beinhaltet, dass die Lösung alle Regeln des Sudokus erfüllt und dass keine Zahl doppelt vorkommt. 
+
+ 
+```
+ print("Gefundene Lösung:\n", solved_sudoku) 
+
+ print(f"Lösung korrekt?          {is_valid_sudoku_solution(solved_sudoku)}") 
+
+ ```
+
+Zuletzt wird das gelöste Sudoku-Board zurückgegeben und der QASM-Code (Quantum Assembly Language) des verwendeten Schaltkreises zur Verfügung gestellt. 
+```
+ return solved_sudoku, qc.qasm() 
+```
