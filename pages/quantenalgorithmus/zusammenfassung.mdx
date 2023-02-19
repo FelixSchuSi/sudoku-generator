@@ -4,3 +4,16 @@ authorGithubName: tizianl
 ---
 
 # Zusammenfassung
+
+In dieser Arbeit wurde eine Lösung für Sudokus mit Hilfe eines Quantencomputers entwickelt. Der Grover-Algorithmus wurde verwendet, indem das Problem als Färbungsproblem betrachtet und in einem Graph umgewandelt wurde. Die möglichen Lösungen pro Feld wurden ermittelt und ein Oracle wurde angewendet, das vorschrieb, dass zwei Knoten nebeneinander nicht die gleiche Zahl haben dürfen. Da die möglichen Zustände in die Qubits programmiert wurden, wurden die Regeln des Sudokus eingehalten. Der erstellte Quantenschaltkreis wurde dann auf einem Simulator ausgeführt, das Ergebnis mit den höchsten Wahrscheinlichkeiten wurde als die richtige Lösung angesehen. Dies wurde dann als Ergebnis in die Lösung geparst und überprüft, ob es korrekt ist. 
+
+# Abschlussworte
+
+Unser Ansatz kann theoretisch jedes Sudoku in jeder beliebigen Größe lösen (2x2, 4x4, 9x9) und kann auch verbessert werden, indem man eindeutige Lösungen als gegebenen Eingabe verwendet. Durch die Verwendung von eindeutigen Lösungen kann der Algorithmus erst dann gestartet werden, wenn es keine eindeutigen Lösungen mehr gibt, was die Effizienz des Algorithmus verbessert und die Rechenzeit/Speicherplatz reduziert. 
+
+
+Zusammenfassungsbild 1 
+
+Unser Ansatz kann auch sehr einfach auf andere Färbungsprobleme angewendet werden, da das Problem in einem Graph umgewandelt wurde. Ein Problem, das jedoch nicht behandelt wurde, ist die Tatsache, dass ein Quantencomputer einen Quantenzustand nur für eine begrenzte Zeit halten kann. Dadurch besteht die Möglichkeit, dass die Iterationen zu lang sind und die Quantenzustände zusammenbrechen, was das Ergebnis nutzlos macht. Dieses Problem kann nur angegangen werden, wenn es eine Möglichkeit gibt, die Iterationen zu verkürzen. Diese Verkürzung könnte auch die Lösung von NP-Problemen sein. 
+
+Durch die konkrete Arbeit an einem echten Problem konnten wir die Konzepte der Quantencomputer-Programmierung sehr gut verstehen. Insbesondere konnten wir den Algorithmus des Graphen sehr gut verstehen. 
