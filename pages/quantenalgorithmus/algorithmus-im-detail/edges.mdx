@@ -13,8 +13,8 @@ Die Funktion „create_edges_from_sudoku_board“ gibt die Verbindungen zwischen
 Diese Funktion erstellt einen Graphen aus den Lücken im Sudoku- Spielfeld.
 Dafür werden die Lücken mit der Zahl 0 mit den entsprechenden anderen Feldern mit der Zahl 0 nach den Sudoku-Regeln verbunden. Dies wird in dem nachfolgenden Bild dargestellt. 
 
+<img src="../../Edgesbild1.JPG" />
 
-Edgesbild1
 
 ## Implementierung
 
@@ -32,10 +32,8 @@ for rowIndex, row in enumerate(sudoku_board):
             current_gap_index = current_gap_index + 1
 ```
 
-
 Der nächste Codeabschnitt erzeugt die Verbindungen zwischen den Knoten. Dabei werden die Kanten zwischen Knoten, die sich horizontal, vertikal oder im gleichen Block befinden, erstellt.
 Am Ende werden die erstellten Verbindungen zurückgegeben. Dies sorgt dafür, dass die Knoten, die eine mögliche Lösung für das gleiche Feld darstellen, nicht die gleiche Farbe haben können und somit die Regeln des Sudokus eingehalten werden.
-
 
 ```
 for node in existing_nodes:
