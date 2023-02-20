@@ -14,8 +14,8 @@ Dazu nimmt die Funktion drei Argumente entgegen:
     - gap_count: die Anzahl der Lücken im Sudoku, die aufgelöst werden sollen
 
     - qubit_registry: ein Objekt des Typs CubitRegistry, das Informationen über die Anzahl der verwendeten
-     Qubits enthält. Dies ist entscheiden, da je nachdem wie viele Qubits zur Darstellung einer Zahl benötigt werden,
-     entsprechend das Ergebnis geparst werden muss.
+     Qubits enthält. Dies ist entscheidend, da je nachdem wie viele Qubits zur Darstellung einer Zahl benötigt werden,
+     (Binär denkweise: bspw. 2 Qubits --> Zahlen 0-3 = Sudoku Zahlen 1-4) entsprechend das Ergebnis geparst werden muss.
 
 Die Funktion sortiert die Ergebnisse nach Häufigkeit und wählt das Ergebnis, welches am häufigsten vorkommt.
 Dazu iteriert die Funktion dann über das Ergebnis und konvertiert jede Binärzeichenfolge in eine Dezimalzahl.
