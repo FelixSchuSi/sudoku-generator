@@ -4,3 +4,111 @@ authorGithubName: tizianl
 ---
 
 # Oracle
+
+Die Funktion „simple_oracle“ wendet ein Orakel auf unser Sudoku (Färbungsproblem) an. 
+
+## Idee
+
+Das Orakel wird auf den Graphen angewendet, den wir in den vorherigen Schritten erzeugt haben. Jeder Knoten, der eine Verbindung zu einem anderen Knoten hat, darf nicht die gleiche Zahl annehmen. Diese Logik müssen wir in den Schaltkreis einprogrammieren.
+
+In dem folgenden Bild wird die Funktionsweise des Orakels erläutert. Unser Zustandsraum wird durch Balken dargestellt. Unsere Lösung ist in diesem Fall der rote Balken. Anschließend wenden wir das Orakel auf den Zustandsraum an und flippen die Amplitude unseres gewünschten Ziels.
+
+<img src="../../OracelBild1.JPG" />
+
+## Implementierung
+
+Zu Beginn teilen wir die Liste der Edges in zwei Unterlisten auf. Diese Unterteilung ermöglicht es uns, die Anzahl der benötigten Hilfsqubits zu reduzieren, da wir sie erneut verwenden können, um die Verbindungen in der anderen Unterliste zu überprüfen. Dies führt zu einer insgesamt effizienteren Nutzung der verfügbaren Ressourcen.
+
+```
+sublists = []
+edges_per_sublist =math.ceil(len(edges)/qubit_registry.edges_sublist_result_qubit_count)
+    for i in range(0,len(edges),edges_per_sublist):
+        sublists.append(edges[i:i+edges_per_sublist])
+```
+
+
+Die Methode create_mct_gate erstellt ein Multi-controlled X-Gatter. Es erwartet ein Zielqubit (target) und eine Liste von Steuerqubits(tmp). Das Zielqubit ist das Qubit, das durch das Gatter beeinflusst wird, wenn alle Steuerqubits den Zustand 1 annehmen.
+
+```
+def create_mct_gate(target, tmp):
+        qc.mct(
+            control_qubits=qr[qubit_registry.clause_qubits[0] : target],
+            target_qubit=qr[tmp],
+            ancilla_qubits=qr[
+                qubit_registry.ancilla_qubits[0] : qubit_registry.ancilla_qubits[1] + 1
+            ],
+            mode="v-chain",
+        )
+```
+
+
+Im nächsten Abschnitt wird die Methode "Compare Vertex" verwendet, um sicherzustellen, dass die Nachbarn in einem Knoten des Graphen unterschiedliche Werte haben. Diese Methode vergleicht die Werte der Nachbarn auf Ungleichheit, indem sie die "Compare Vertex"-Methode verwendet, die wir in einem kommenden Abschnitt genauer erläutern werden. Dadurch wird sichergestellt, dass die Regeln des Sudokus eingehalten werden und eine gültige Lösung gefunden werden kann. Die Vergleiche werden durch eine "for"-Schleife durchgeführt.
+
+```
+for elm in sublist:
+    compare_vertex(qc, qr, elm[0], elm[1], target, qubit_registry)
+    target += 1
+```
+
+## Compare Vertex
+
+Die Idee von Compare Vertex ist es, zwei Zahlen auf Ungleichheit zu überprüfen und dies in der Quantenschaltung umzusetzen.
+Die wichtigen Aspekte dabei sind:
+Der Algorithmus soll für jede beliebige Zahl möglich sein.
+Der Algorithmus soll leicht verständlich sein.
+Der Algorithmus darf nur Hilfsqubits verwenden.
+
+<img src="../../OracelBild2.JPG" />
+
+
+Wichtige Informationen für den Quantenalgorithmus sind, dass die einprogrammierten Zahlen sowie die Hilfsqubit sich nicht verändern dürfen. Es darf sich nur das Ergebnisqubit ändern.
+Es ist wichtig zu beachten, dass Vergleichsoperationen in Quantenschaltungen anders funktionieren als in der klassischen Programmierung. Es erfordert spezielle Quantum Gates und Techniken, um zwei Quantenbits zu vergleichen. Im Gegensatz zur klassischen Programmierung können in der Quantenwelt die Zustände von zwei Quantenbits nicht einfach miteinander verglichen werden, sondern es müssen spezielle Techniken angewendet werden, um den Vergleich durchzuführen.
+
+<img src="../../OracelBild3.JPG" />
+
+Die Zahlen werden in Qubits gespeichert. Dieses Bild zeigt eine Darstellung wie 2 Qubits die Zahl 2 darstellen (Darstellung in binärer Form).
+
+<img src="../../OracelBild4.JPG" />
+
+Um zwei 1-Bit-Zahlen in einem Quantenschaltkreis zu vergleichen, wird der in der Abbildung dargestellte Schaltkreis verwendet. Die beiden Zahlen werden durch ein Toffoli-Gatter miteinander verbunden. Wenn beide Zahlen den Wert 1 haben, ergibt sich ein positives Ergebnis. Andernfalls wird ein negatives Ergebnis erzeugt. Um sicherzustellen, dass das Ergebnis nach der Ausführung des Schaltkreises korrekt ist, wird ein Pauli X-Gatter und dann erneut ein Toffoli-Gatter angewendet. Momentan ist der Schaltkreis jedoch nur in der Lage, 1-Bit-Zahlen zu vergleichen und das Ergebnis auf Gleichheit zu überprüfen. 
+Um größere Zahlen als nur ein Bit auf Ungleichheit zu vergleichen, müssen weitere Schritte hinzugefügt werden.
+
+
+<img src="../../OracelBild5.JPG" />
+
+
+Um größere Zahlen als ein Bit zu vergleichen, müssen wir den vorherigen Schaltkreis auf jedes Bit in den beiden Zahlen anwenden. Das Ergebnis jedes Vergleichs wird in einem Hilfsqubit gespeichert. Die Hilfsqubits müssen dann mit einem Multi-controlled X-Gatter verbunden werden, um das Ergebnis zu erhalten, ob die Zahlen gleich sind. Um auf Ungleichheit zu testen, fügen wir ein Pauli-X-Gatter vor dem Ergebnis hinzu. Am Ende wird alles bis auf das Multi-controlled X-Gatter uncomputed. Es ist zu beachten, dass die Anzahl der benötigten Hilfsqubits mit der Anzahl der Bits in den verglichenen Zahlen steigt.
+
+
+Im folgenden Bild wird der Code für den Compare Vertex dargestellt, allerdings ohne den Uncomputation-Abschnitt.
+
+
+```
+qc.x(qr[target])
+    
+    for i in range(0 , qubit_registry.number_of_qubits):
+        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+
+    for i in range(0 , qubit_registry.number_of_qubits):
+        qc.x(qr[qubit_registry.number_of_qubits * v1 + i ])
+        qc.x(qr[qubit_registry.number_of_qubits * v2  + i])
+
+    for i in range(0 , qubit_registry.number_of_qubits):
+        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])  
+
+    qc.mct(qr[tempArray[0]: tempArray[len(tempArray)-1]+1], target, tempAncillaQubitsArray[0:len(tempAncillaQubitsArray)]  ,  mode='v-chain')
+  
+    for i in reversed(range(0 , qubit_registry.number_of_qubits)):
+        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+
+    for i in reversed(range(0 , qubit_registry.number_of_qubits)):
+        qc.x(qr[qubit_registry.number_of_qubits * v1 + i ])
+        qc.x(qr[qubit_registry.number_of_qubits * v2  + i])
+    
+    for i in reversed(range(0 , qubit_registry.number_of_qubits)):
+        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+
+```
+
+
+
