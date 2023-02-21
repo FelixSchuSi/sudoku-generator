@@ -5,7 +5,7 @@ authorGithubName: tizianl
 
 # Edges
 
-Die Funktion „create_edges_from_sudoku_board“ gibt die Verbindungen zwischen den leeren Feldern zurück. Dabei symbolisiert die 0 ein leeres Feld. Der Algorithmus erzeugt einen Graphen, sodass im Anschluss das Problem in ein Färbungsproblem umgewandelt werden kann.
+Die Funktion `create_edges_from_sudoku_board` gibt die Verbindungen zwischen den leeren Feldern zurück. Dabei symbolisiert die 0 ein leeres Feld. Der Algorithmus erzeugt einen Graphen, sodass im Anschluss das Problem in ein Färbungsproblem umgewandelt werden kann.
 
 ## Idee
 
@@ -21,7 +21,7 @@ Dafür werden die Lücken mit der Zahl 0 mit den entsprechenden anderen Feldern 
 
 Der Algorithmus hat zwei Hauptabschnitte:
 Der erste Teil des Algorithmus geht jeden Eintrag im Sudoku-Board durch.  Wenn die Zelle 0 ist, was einem leeren Feld entspricht, wird ein neuer Knoten mit den x- und y-Koordinaten dieses Feldes zur Liste der bestehenden Knoten hinzugefügt. 
-```
+```python
 for rowIndex, row in enumerate(sudoku_board):
         for colIndex, cell in enumerate(row):
             if cell != 0:
@@ -35,7 +35,7 @@ for rowIndex, row in enumerate(sudoku_board):
 Der nächste Codeabschnitt erzeugt die Verbindungen zwischen den Knoten. Dabei werden die Kanten zwischen Knoten, die sich horizontal, vertikal oder im gleichen Block befinden, erstellt.
 Am Ende werden die erstellten Verbindungen zurückgegeben. Dies sorgt dafür, dass die Knoten, die eine mögliche Lösung für das gleiche Feld darstellen, nicht die gleiche Farbe haben können und somit die Regeln des Sudokus eingehalten werden.
 
-```
+```python
 for node in existing_nodes:
         for other_node in existing_nodes:
             if node["gap_index"] == other_node["gap_index"]:
@@ -61,8 +61,8 @@ for node in existing_nodes:
 
 ## Verwendung
 
-Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der „create_edges_from_sudoku_board“.
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der `create_edges_from_sudoku_board` Funktion.
 
-```
+```python
 edges = create_edges_from_sudoku_board(sudoku_board=sudoku_board)
 ```

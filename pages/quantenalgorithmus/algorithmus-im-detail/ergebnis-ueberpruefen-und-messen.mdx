@@ -4,15 +4,15 @@ authorGithubName: jannikbergjan
 ---
 
 # Ergebnis überprüfen und messen
-Die Funktion "is_valid_sudoku_solution" prüft, ob eine gegebene Sudoku-Lösung gültig ist.
+Die Funktion `is_valid_sudoku_solution` prüft, ob eine gegebene Sudoku-Lösung gültig ist.
 ## Idee
 Es wird eine Schleife über jede Zelle des Sudoku-Boards verwendet, in der jede Zelle mit jeder anderen Zelle in der
 gleichen Zeile und Spalte sowie in den gleichen Quadranten verglichen wird. Wenn eine Übereinstimmung gefunden wird,
-wird False zurückgegeben (d.H. keine korrekte Sudoku Lösung gefunden). Wenn keine Übereinstimmungen gefunden wird,
-wird True zurückgegeben (d.H. keine fehler in der Sudoku Lösung gefunden, Lösung ist korrekt).
+wird False zurückgegeben (d. h. keine korrekte Sudoku Lösung gefunden). Wenn keine Übereinstimmungen gefunden wird,
+wird True zurückgegeben (d. h. keine Fehler in der Sudoku Lösung gefunden, Lösung ist korrekt).
 
 ## Implementierung
-Die Funktion "is_valid_sudoku_solution" ist wie folgt implementiert:
+Die Funktion `is_valid_sudoku_solution` ist wie folgt implementiert:
 ```python
 def is_valid_sudoku_solution(sudoku_board):
     for rowIndex, row in enumerate(sudoku_board):
@@ -61,7 +61,7 @@ def is_valid_sudoku_solution(sudoku_board):
 ```
 
 ## Verwendung
-Die Funktion ```is_valid_sudoku_solution```wird am Ende der Main Methode aufgerufen.
+Die Funktion `is_valid_sudoku_solution` wird am Ende der Main Methode aufgerufen.
 Ihr wird das gelöste Sudoku "solved_sudoku" übergeben.
 
 Dazu wird die Simulationsdauer gemessen, um am Ende der Simulation die Ausführungszeit zu erhalten.

@@ -61,3 +61,8 @@ video.demo {
     width: 100%;
     height: auto;
 }
+
+iframe.poster {
+    width: 100%;
+    aspect-ratio: 1 / 1.5;
+}

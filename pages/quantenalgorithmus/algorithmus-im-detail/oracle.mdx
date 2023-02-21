@@ -5,7 +5,7 @@ authorGithubName: tizianl
 
 # Oracle
 
-Die Funktion „simple_oracle“ wendet ein Orakel auf unser Sudoku (Färbungsproblem) an. 
+Die Funktion `simple_oracle` wendet ein Orakel auf unser Sudoku (Färbungsproblem) an. 
 
 ## Idee
 
@@ -19,7 +19,7 @@ In dem folgenden Bild wird die Funktionsweise des Orakels erläutert. Unser Zust
 
 Zu Beginn teilen wir die Liste der Edges in zwei Unterlisten auf. Diese Unterteilung ermöglicht es uns, die Anzahl der benötigten Hilfsqubits zu reduzieren, da wir sie erneut verwenden können, um die Verbindungen in der anderen Unterliste zu überprüfen. Dies führt zu einer insgesamt effizienteren Nutzung der verfügbaren Ressourcen.
 
-```
+```python
 sublists = []
 edges_per_sublist =math.ceil(len(edges)/qubit_registry.edges_sublist_result_qubit_count)
     for i in range(0,len(edges),edges_per_sublist):
@@ -27,9 +27,9 @@ edges_per_sublist =math.ceil(len(edges)/qubit_registry.edges_sublist_result_qubi
 ```
 
 
-Die Methode create_mct_gate erstellt ein Multi-controlled X-Gatter. Es erwartet ein Zielqubit (target) und eine Liste von Steuerqubits(tmp). Das Zielqubit ist das Qubit, das durch das Gatter beeinflusst wird, wenn alle Steuerqubits den Zustand 1 annehmen.
+Die Methode `create_mct_gate` erstellt ein Multi-controlled X-Gatter. Es erwartet ein Zielqubit (target) und eine Liste von Steuerqubits(tmp). Das Zielqubit ist das Qubit, das durch das Gatter beeinflusst wird, wenn alle Steuerqubits den Zustand 1 annehmen.
 
-```
+```python
 def create_mct_gate(target, tmp):
         qc.mct(
             control_qubits=qr[qubit_registry.clause_qubits[0] : target],
@@ -42,9 +42,9 @@ def create_mct_gate(target, tmp):
 ```
 
 
-Im nächsten Abschnitt wird die Methode "Compare Vertex" verwendet, um sicherzustellen, dass die Nachbarn in einem Knoten des Graphen unterschiedliche Werte haben. Diese Methode vergleicht die Werte der Nachbarn auf Ungleichheit, indem sie die "Compare Vertex"-Methode verwendet, die wir in einem kommenden Abschnitt genauer erläutern werden. Dadurch wird sichergestellt, dass die Regeln des Sudokus eingehalten werden und eine gültige Lösung gefunden werden kann. Die Vergleiche werden durch eine "for"-Schleife durchgeführt.
+Im nächsten Abschnitt wird die Methode `compare_vertex` verwendet, um sicherzustellen, dass die Nachbarn in einem Knoten des Graphen unterschiedliche Werte haben. Diese Methode vergleicht die Werte der Nachbarn auf Ungleichheit, indem sie die `compare_vertex`-Methode verwendet, die wir in einem kommenden Abschnitt genauer erläutern werden. Dadurch wird sichergestellt, dass die Regeln des Sudokus eingehalten werden und eine gültige Lösung gefunden werden kann. Die Vergleiche werden durch eine "for"-Schleife durchgeführt.
 
-```
+```python
 for elm in sublist:
     compare_vertex(qc, qr, elm[0], elm[1], target, qubit_registry)
     target += 1
@@ -83,30 +83,30 @@ Um größere Zahlen als ein Bit zu vergleichen, müssen wir den vorherigen Schal
 Im folgenden Bild wird der Code für den Compare Vertex dargestellt, allerdings ohne den Uncomputation-Abschnitt.
 
 
-```
+```python
 qc.x(qr[target])
     
-    for i in range(0 , qubit_registry.number_of_qubits):
-        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+for i in range(0 , qubit_registry.number_of_qubits):
+    qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
 
-    for i in range(0 , qubit_registry.number_of_qubits):
-        qc.x(qr[qubit_registry.number_of_qubits * v1 + i ])
-        qc.x(qr[qubit_registry.number_of_qubits * v2  + i])
+for i in range(0 , qubit_registry.number_of_qubits):
+    qc.x(qr[qubit_registry.number_of_qubits * v1 + i ])
+    qc.x(qr[qubit_registry.number_of_qubits * v2  + i])
 
-    for i in range(0 , qubit_registry.number_of_qubits):
-        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])  
+for i in range(0 , qubit_registry.number_of_qubits):
+    qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])  
 
-    qc.mct(qr[tempArray[0]: tempArray[len(tempArray)-1]+1], target, tempAncillaQubitsArray[0:len(tempAncillaQubitsArray)]  ,  mode='v-chain')
-  
-    for i in reversed(range(0 , qubit_registry.number_of_qubits)):
-        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+qc.mct(qr[tempArray[0]: tempArray[len(tempArray)-1]+1], target, tempAncillaQubitsArray[0:len(tempAncillaQubitsArray)]  ,  mode='v-chain')
 
-    for i in reversed(range(0 , qubit_registry.number_of_qubits)):
-        qc.x(qr[qubit_registry.number_of_qubits * v1 + i ])
-        qc.x(qr[qubit_registry.number_of_qubits * v2  + i])
-    
-    for i in reversed(range(0 , qubit_registry.number_of_qubits)):
-        qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+for i in reversed(range(0 , qubit_registry.number_of_qubits)):
+    qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
+
+for i in reversed(range(0 , qubit_registry.number_of_qubits)):
+    qc.x(qr[qubit_registry.number_of_qubits * v1 + i ])
+    qc.x(qr[qubit_registry.number_of_qubits * v2  + i])
+
+for i in reversed(range(0 , qubit_registry.number_of_qubits)):
+    qc.ccx(qr[qubit_registry.number_of_qubits * v1 + i], qr[qubit_registry.number_of_qubits * v2 + i],tempArray[i])
 
 ```
 

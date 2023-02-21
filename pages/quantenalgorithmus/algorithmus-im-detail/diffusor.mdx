@@ -15,13 +15,13 @@ Dies führt dazu, dass der gesuchte Bit-Zustand höher gewichtet wird und somit 
 
 Im Einzelnen:
 
-    1. Die Funktion initialize_blanks_inverse setzt die angegebenen Qubits auf eine bestimmte Ausgangsbedingung.
+    1. Die Funktion `initialize_blanks_inverse` setzt die angegebenen Qubits auf eine bestimmte Ausgangsbedingung.
 
     2. Anschließend wird auf alle angegebenen Qubits eine Pauli-X-Operation ausgeführt.
 
-    3. Danach wird auf das Qubit mit dem Index qubit_registry.value_qubits[1] eine Hadamard-Transformation (H-Gate) angewendet.
+    3. Danach wird auf das Qubit mit dem Index `qubit_registry.value_qubits[1]` eine Hadamard-Transformation (H-Gate) angewendet.
 
-    4. Mit dem mct-Gate (Multiple Controlled Toffoli-Gate) wird dann eine spezielle Kontroll-Operation ausgeführt. Dabei werden die Qubits qr[: qubit_registry.value_qubits[1]] als Steuer-Qubits und das Qubit qr[qubit_registry.value_qubits[1]] als Ziel-Qubit verwendet. Zusätzlich werden die Qubits qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1] als Hilfsqubits verwendet. Der Modus "v-chain" legt fest, dass es sich um eine v-förmige Kette von Steuer-Qubits handelt.
+    4. Mit dem mct-Gate (Multiple Controlled Toffoli-Gate) wird dann eine spezielle Kontroll-Operation ausgeführt. Dabei werden die Qubits `qr[: qubit_registry.value_qubits[1]]` als Steuer-Qubits und das Qubit `qr[qubit_registry.value_qubits[1]]` als Ziel-Qubit verwendet. Zusätzlich werden die Qubits `qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1]` als Hilfsqubits verwendet. Der Modus "v-chain" legt fest, dass es sich um eine v-förmige Kette von Steuer-Qubits handelt.
 
     5. Anschließend wird zur Umkehrung wieder eine Hadamard-Transformation auf das Ziel-Qubit angewendet.
 
@@ -29,7 +29,7 @@ Im Einzelnen:
 
     7. Die Funktion initialize_blanks setzt die angegebenen Qubits wieder auf den Ausgangszustand zurück.
 ## Implementierung
-Die Funktion ```diffusor``` wurde wie folgt implementiert:
+Die Funktion `diffusor` wurde wie folgt implementiert:
 ```python
 def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
     """
