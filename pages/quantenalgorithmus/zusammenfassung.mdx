@@ -4,3 +4,18 @@ authorGithubName: tizianl
 ---
 
 # Zusammenfassung
+
+In dieser Arbeit wurde eine Lösung für Sudokus mit Hilfe eines Quantencomputers entwickelt. Der Grover-Algorithmus wurde verwendet, indem das Problem als Färbungsproblem betrachtet und in einen Graphen umgewandelt wurde. Die möglichen Lösungen pro Feld wurden ermittelt und ein Oracle wurde angewendet. Vorgeschrieben war, dass zwei Knoten nebeneinander nicht die gleiche Zahl haben dürfen. Da die möglichen Zustände in die Qubits programmiert wurden, wurden die Regeln des Sudokus eingehalten. Der erstellte Quantenschaltkreis wurde dann auf einem Simulator ausgeführt, das Ergebnis mit den höchsten Wahrscheinlichkeiten wurde als die richtige Lösung angesehen. Dies wurde dann als Ergebnis in die Lösung geparst und überprüft, ob es korrekt ist.
+
+## Abschlussworte
+
+Unser Ansatz kann theoretisch jedes Sudoku in jeder beliebigen Größe lösen (2x2, 4x4, 9x9). Verbessert werden könnte das Vorgeben von eindeutigen Lösungen im Sudoku. Durch die Verwendung von eindeutigen Lösungen kann der Algorithmus erst dann gestartet werden, wenn es keine eindeutigen Lösungen mehr gibt. Das verbessert die Effizienz des Algorithmus und reduziert die Rechenzeit oder den Speicherplatz.
+
+<img width="250px" src="../../ZusammenfassungBild1.JPG" /> 
+
+Unser Ansatz kann auch sehr einfach auf andere Färbungsprobleme angewendet werden, da das Problem in einen Graphen umgewandelt wurde. Ein Problem, das jedoch nicht behandelt wurde, ist die Tatsache, dass ein Quantencomputer einen Quantenzustand nur für eine begrenzte Zeit halten kann. Dadurch besteht die Möglichkeit, dass die Iterationen zu lang sind, die Quantenzustände zusammenbrechen und das Ergebnis wäre nutzlos. Dieses Problem kann nur angegangen werden, wenn es eine Möglichkeit gibt, die Iterationen zu verkürzen. Diese Verkürzung könnte auch die Lösung von NP-Problemen sein.
+Durch die konkrete Arbeit an einem echten Problem konnten wir die Konzepte der Quantencomputer-Programmierung sehr gut verstehen. Insbesondere konnten wir den Algorithmus des Grovers sehr gut nachvollziehen. 
+ 
+
+
+

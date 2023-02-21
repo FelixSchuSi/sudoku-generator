@@ -4,12 +4,12 @@ authorGithubName: jannikbergjan
 ---
 
 # Candidates
-Die Funktion "get_candidates" gibt die Liste "candidates" zurück, die für jede leere Zelle eine Liste mit
+Die Funktion ```get_candidates```  gibt die Liste ```candidates``` zurück, die für jede leere Zelle eine Liste mit
 möglichen Sudoku Zahlen enthält.
 
 ## Idee
 Diese Funktion berechnet die möglichen Werte für die Lücken im Sudoku-Spielfeld. Sie durchläuft das Spielfeld Zeile
-für Zeile und prüft, ob jede Zelle leer ist oder nicht. Wenn die Zelle leer ist, wird für jeden mögliche Sudoku-Zah)
+für Zeile und prüft, ob jede Zelle leer ist oder nicht. Wenn die Zelle leer ist, wird für jeden mögliche Sudoku-Zahl
 überprüft, ob er eine mögliche Lösung für die Zelle ist (Sudoku 4*4 = Sudoku-Zahlen 1-4). Dazu wird geprüft, ob
 die Sudoku Zahl in der gleichen Spalte oder Zeile bereits vorkommt und - falls das Spielfeld Quadraten hat - auch,
 ob die Sudoku Zahl im gleichen Block bereits vorkommt. Wenn eine Sudoku Zahl als mögliche Lösung gültig ist,
@@ -18,7 +18,7 @@ hinzugefügt.
 
 ## Implementierung
 
-Die Funktion "get_candidates" wurde wie folgt implementiert:
+Die Funktion ```get_candidates``` wurde wie folgt implementiert:
 ```python
 def get_candidates(sudoku_board):
     """
@@ -60,7 +60,8 @@ def get_candidates(sudoku_board):
 ```
 
 ## Verwendung
-Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der 'get_candidates'.
+Abgebildet ist ein Teil der Main-Methode des Algorithmus. Die hervorgehobene Zeile zeigt den Aufruf der
+```get_candidates```.
 ```python {4}
 def main(request_payload = None, sudoku_board = None):
     if sudoku_board is None:

@@ -23,13 +23,13 @@ Im Einzelnen:
 
     4. Mit dem mct-Gate (Multiple Controlled Toffoli-Gate) wird dann eine spezielle Kontroll-Operation ausgeführt. Dabei werden die Qubits qr[: qubit_registry.value_qubits[1]] als Steuer-Qubits und das Qubit qr[qubit_registry.value_qubits[1]] als Ziel-Qubit verwendet. Zusätzlich werden die Qubits qr[qubit_registry.clause_qubits[0] : qubit_registry.ancilla_qubits[1] + 1] als Hilfsqubits verwendet. Der Modus "v-chain" legt fest, dass es sich um eine v-förmige Kette von Steuer-Qubits handelt.
 
-    5. Anschließend wird wieder eine Hadamard-Transformation auf das Ziel-Qubit angewendet.
+    5. Anschließend wird zur Umkehrung wieder eine Hadamard-Transformation auf das Ziel-Qubit angewendet.
 
-    6. Schließlich wird auf alle angegebenen Qubits eine Pauli-X-Operation ausgeführt.
+    6. Schließlich wird zur Umkehrung auf alle angegebenen Qubits wieder eine Pauli-X-Operation ausgeführt.
 
     7. Die Funktion initialize_blanks setzt die angegebenen Qubits wieder auf den Ausgangszustand zurück.
 ## Implementierung
-Die Funktion "diffusor" wurde wie folgt implementiert:
+Die Funktion ```diffusor``` wurde wie folgt implementiert:
 ```python
 def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
     """
