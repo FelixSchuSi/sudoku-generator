@@ -9,21 +9,21 @@ Der Grover-Algorithmus ist ein Quantum-Algorithmus, der die Suche in ungeordnete
 Im Vergleich zu klassischen Algorithmen, die in der Regel eine Laufzeit von $O(n)$ haben, hat der Grover-Algorithmus
 eine Laufzeit von $O(\sqrt{n})$.
 
-Der Grover-Algorithmus verwendet zwei wichtige Komponenten:
+Der Grover-Algorithmus verwendet zwei wichtige Komponenten, ein Oracle und einen Diffusor.
 
-    - ein Oracle
-    - einen Diffusor
-
+## Oracle
 Das Oracle ist eine Funktion, die auf die Datenstruktur angewendet wird, um die gesuchten Elemente hervorzuheben.
 Es ist eine Art "Markierungsfunktion", die den Zustand der Qubits ändert, wenn sie auf die gesuchten Elemente
 angewendet wird. Im Grover-Algorithmus wird das Oracle verwendet, um die gesuchten Elemente von den nicht
 gesuchten Elementen zu unterscheiden.
 
+## Diffusor
 Der Diffusor ist eine weitere Funktion, die auf die Datenstruktur angewendet wird. Seine Aufgabe ist es,
 den Zustand der Qubits so zu ändern, dass die Wahrscheinlichkeit, dass ein gesuchtes Element gefunden wird,
 erhöht wird. Dieser Teil des Algorithmus besteht aus einer Inversion um den Mittelwert (engl. diffusion)
 und wird auf dem Zustandsvektor der Qubits angewendet.
 
+## Ablauf des Grover-Algorithmus
 Der Algorithmus selbst besteht aus mehreren Iterationen, bei denen das Oracle und der Diffusor im Wechsel
 angewendet werden, um die gesuchten Elemente zu finden. Jede Iteration erhöht die Wahrscheinlichkeit,
 dass ein gesuchtes Element gefunden wird, bis schlussendlich ein gesuchtes Element gefunden wird.
