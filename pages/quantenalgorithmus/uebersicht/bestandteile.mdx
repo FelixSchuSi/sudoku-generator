@@ -9,7 +9,7 @@ Der Algorithmus beginnt nachdem das Front-End die JSON-Daten übergeben hat. Der
 ```
 candidates = get_candidates(sudoku_board) 
 ```
- <img src="../../Bestandteile Bild 1.JPG" />
+ <img width="250px" src="../../Bestandteile Bild 1.JPG" />
       
       
 Anschließend werden diese Kandidaten in einem doppelten Array nacheinander gespeichert wie in diesem Beispiel dargestellt wird: [[1,4], [1], [1,2],[1],[1],[1,3],[1],[1,4]].
@@ -20,7 +20,7 @@ Nachdem die Kandidaten berechnet wurden, wird aus dem Sudoku ein Graph erstellt.
  edges = create_edges_from_sudoku_board(sudoku_board=sudoku_board) 
  ```   
 
-  <img src="../../Bestandteile Bild 2.JPG" />
+  <img width="250px" src="../../Bestandteile Bild 2.JPG" />
  
  
 Der nächste Schritt besteht darin, einen Überblick über die Qubits zu erhalten und wichtige Eckdaten für den Algorithmus zu sammeln. Dabei werden die Qubits in unterschiedliche Bereiche eingeteilt. Beispiele sind value qubits, die die Ergebnisse liefern und Hilfsqubits, die oft für bestimmte Teile des Algorithmus verwendet werden und häufig wiederverwendet werden. Eine wichtige Eckdate, die für den Algorithmus gesammelt wird, ist die Gesamtanzahl der Qubits. 
@@ -46,7 +46,7 @@ initialize_blanks(qc, qr, candidates, qubit_registry)
 
 Die Idee dahinter ist, dass der erstellte Graph und die berechneten Kandidaten zusammengeführt werden. Dies geschieht, indem die Kandidaten als mögliche Lösungen für die Knoten des Graphen verwendet werden. Auf diese Weise kann der Algorithmus die Verbindungen zwischen den Knoten und die möglichen Lösungen berücksichtigen, um eine richtige Lösung zu finden.
 
-<img src="../../Bestandteile Bild 3.JPG" />
+<img width="250px" src="../../Bestandteile Bild 3.JPG" />
 
 
 Der nächste Schritt besteht darin, die Anzahl der erforderlichen Grover-Iterationen zu berechnen.
