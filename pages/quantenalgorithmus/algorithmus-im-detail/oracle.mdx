@@ -58,23 +58,23 @@ Der Algorithmus soll für jede beliebige Zahl möglich sein.
 Der Algorithmus soll leicht verständlich sein.
 Der Algorithmus darf nur Hilfsqubits verwenden.
 
-<img src="../../OracelBild2.JPG" />
+<img height="250px" src="../../OracelBild2.JPG" />
 
 
 Wichtige Informationen für den Quantenalgorithmus sind, dass die einprogrammierten Zahlen sowie die Hilfsqubit sich nicht verändern dürfen. Es darf sich nur das Ergebnisqubit ändern.
 Es ist wichtig zu beachten, dass Vergleichsoperationen in Quantenschaltungen anders funktionieren als in der klassischen Programmierung. Es erfordert spezielle Quantum Gates und Techniken, um zwei Quantenbits zu vergleichen. Im Gegensatz zur klassischen Programmierung können in der Quantenwelt die Zustände von zwei Quantenbits nicht einfach miteinander verglichen werden, sondern es müssen spezielle Techniken angewendet werden, um den Vergleich durchzuführen.
 
-<img src="../../OracelBild3.JPG" />
+<img height="100px" src="../../OracelBild3.JPG" />
 
 Die Zahlen werden in Qubits gespeichert. Dieses Bild zeigt eine Darstellung wie 2 Qubits die Zahl 2 darstellen (Darstellung in binärer Form).
 
-<img src="../../OracelBild4.JPG" />
+<img height="250px" src="../../OracelBild4.JPG" />
 
 Um zwei 1-Bit-Zahlen in einem Quantenschaltkreis zu vergleichen, wird der in der Abbildung dargestellte Schaltkreis verwendet. Die beiden Zahlen werden durch ein Toffoli-Gatter miteinander verbunden. Wenn beide Zahlen den Wert 1 haben, ergibt sich ein positives Ergebnis. Andernfalls wird ein negatives Ergebnis erzeugt. Um sicherzustellen, dass das Ergebnis nach der Ausführung des Schaltkreises korrekt ist, wird ein Pauli X-Gatter und dann erneut ein Toffoli-Gatter angewendet. Momentan ist der Schaltkreis jedoch nur in der Lage, 1-Bit-Zahlen zu vergleichen und das Ergebnis auf Gleichheit zu überprüfen. 
 Um größere Zahlen als nur ein Bit auf Ungleichheit zu vergleichen, müssen weitere Schritte hinzugefügt werden.
 
 
-<img src="../../OracelBild5.JPG" />
+<img height="300px" src="../../OracelBild5.JPG" />
 
 
 Um größere Zahlen als ein Bit zu vergleichen, müssen wir den vorherigen Schaltkreis auf jedes Bit in den beiden Zahlen anwenden. Das Ergebnis jedes Vergleichs wird in einem Hilfsqubit gespeichert. Die Hilfsqubits müssen dann mit einem Multi-controlled X-Gatter verbunden werden, um das Ergebnis zu erhalten, ob die Zahlen gleich sind. Um auf Ungleichheit zu testen, fügen wir ein Pauli-X-Gatter vor dem Ergebnis hinzu. Am Ende wird alles bis auf das Multi-controlled X-Gatter uncomputed. Es ist zu beachten, dass die Anzahl der benötigten Hilfsqubits mit der Anzahl der Bits in den verglichenen Zahlen steigt.
