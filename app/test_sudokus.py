@@ -1,6 +1,6 @@
 import numpy as np
 import unittest
-from sudoku_to_qasm import main
+from sudoku_grover import main
 from test_helpers import is_valid_sudoku_solution
 
 
