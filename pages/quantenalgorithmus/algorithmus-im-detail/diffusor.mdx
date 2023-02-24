@@ -4,11 +4,13 @@ authorGithubName: jannikbergjan
 ---
 
 # Diffusor
+
 Der Diffusor im Grover-Algorithmus ist ein Teil des Algorithmus, der dazu dient, die Wahrscheinlichkeit
 des gesuchten Zustands zu erhöhen. Dieser Teil des Algorithmus besteht aus einer Inversion um den
 Mittelwert (engl. diffusion) und wird auf dem Zustandsvektor der Qubits angewendet.
 
 ## Idee
+
 Der Code implementiert den Diffusor des Grover-Algorithmus.
 Hierbei wird ein bestimmter Bit-Zustand in einer Superposition von Bit-Zuständen nach unten reflektiert.
 Dies führt dazu, dass der gesuchte Bit-Zustand höher gewichtet wird und somit wahrscheinlicher gemessen werden kann.
@@ -28,8 +30,11 @@ Im Einzelnen:
     6. Schließlich wird zur Umkehrung auf alle angegebenen Qubits wieder eine Pauli-X-Operation ausgeführt.
 
     7. Die Funktion initialize_blanks setzt die angegebenen Qubits wieder auf den Ausgangszustand zurück.
+
 ## Implementierung
+
 Die Funktion `diffusor` wurde wie folgt implementiert:
+
 ```python
 def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
     """
@@ -59,8 +64,10 @@ def diffusor(circuit, qr, candidates, qubit_registry: CubitRegisty):
 ```
 
 ## Verwendung
+
 Die Implementierung zeigt die Main-Methode des gesamten Algorithmus. In diesem Abschnitt kommt es auf die
 hervorgehobene Zeile an, die Ausführung des Diffusors.
+
 ```python {7}
 def main(request_payload = None, sudoku_board = None):
     #..
@@ -72,3 +79,17 @@ def main(request_payload = None, sudoku_board = None):
 
     #..
 ```
+
+## Erklärungsvideo
+
+Zu diesem Thema wurde ein Erklärungsvideo erstellt:
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/ichcpbSxQn4"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>

@@ -1,37 +1,94 @@
+import { Callout } from "nextra-theme-docs";
+
 # Benchmarks
 
-Während der Entwicklung arbeiteten mehrere Teams an verschiedenen Lösungen. Ein Team verfolgte den gleichen Ansatz wie
-wir, nutzte jedoch an verschiedenen Stellen andere Lösungsansätze. Um diese beiden Lösungen zu vergleichen,
-haben wir verschiedene Metriken verwendet und die Ergebnisse in den folgenden Grafiken dargestellt.
-Unser Algorithmus wird in den Grafiken als Version B dargestellt.
+Ein anderes Team des Forschung- und Entwicklungsprojektes
+(Im folgenen Team A genannt) hat ebenfalls einen Quantenalgorithmus
+zum Lösen von Sudoku-Rätseln entwickelt.
 
-Wichtig: Die Benchmarks wurden mit dem AER-Simulator von Qiskit ausgeführt. Da es sich um Messungen mittels
-Simulator handelt, sagen die Werte nichts aus. Um einen wirklichen Vergleich schaffen zu können, müssten beide
-Versionen auf einem Quantencomputer ausgeführt und gemessen werden. Dies war nicht möglich, da zum aktuellen Zeitpunkt
-kein frei zugänglicher (kostenfreier) Quantencomputer zur Verfügung stand, der über >= 30 Qubits verfügt.
+In diesem Kapitel wird unsere Lösung (im folgenen Ansatz B genannt)
+mit der Lösung von Teams A (Ansatz A) verglichen.
 
-<br />
-1.  Circuit Creation Duration
+<Callout emoji="⚠️" type="warning">
+Beim Benchmarking wurde das Verhalten der Implementierungen bei der Simulation anhand
+mehrerer Metriken beobachtet.
+
+Um diese Metriken richtig interpretieren zu können sollten wir uns bewusst machen,
+dass die Quantenalgorithmen nicht für das Ausführen auf Simulatoren optimiert sind.
+Die Optimierung für Simulatoren ist nicht zielführend, da kein Zusammenhang
+zwischen Performanz auf Simulatoren und Performanz auf echter Quantenhardware existiert.
+
+Daher sind die Metriken Laufzeit der Simulation,
+Auslastung der CPU und Speichernutzung nicht aussagekräftig.
+
+</Callout>
+
+## Laufzeit Schaltkreiserstellung (Millisekunden)
+
+Diese Metrik zeigt die Zeit an,
+die benötigt wird um den Schaltkreis zu erstellen.
+Die Simulation des Schaltkreises ist nicht mit inbegriffen.
+
 <img src="../../circuit_creation_duration.png" />
 
-<br />
-2.  Qubits Count
+Es kann beobachtet werden, keine der Implementierung
+deutlich effizienter bei der Schaltkreiserstellung ist.
+
+## Anzahl benötigter Qubits
+
+Diese Metrik beschreibt, wieviele Qubits für den erstellten Schaltkreis benötigt werden.
+
 <img src="../../qubits_count.png" />
 
-<br />
-3.  Grover Iterations
+Es lässt sich beprobacht, dass Ansatz A geringfügig weniger Qubits benötigt.
+
+## Anzahl Grover-Iterations
 
 Die Grover Iterationen hängen vom Lösungsraum ab, die Berechnung der Anzahl an Iterationen wird im Video Oracle erklärt.
+
 <img src="../../grover_iterations.png" />
 
-<br />
-4.  Simulation Duration
-<img src="../../simulation_duration.png" />
+Es lässt sich beobachten, dass beide Implementierungen für drei der untersuchten Rätsel
+die gleiche Anzahl an Iterationen wählen.
 
-<br />
-5.  CPU Usage Average
+Es gilt zu beachten, dass eine geringere Anzahl an Iterationen nicht besser ist.
+Es gibt ein mathematisches Optimum an Iterationen, bei welcher der Grover Algorithmus
+am genausten arbeitet. Das Optimum liegt bei $\frac{1}{2} \sqrt{N}$, wobei $N$ die größe
+des Lösungsraums beschreibt.
+
+## Laufzeit der Simulation (Sekunden)
+
+Diese Metrik beschreibt die Zeit, die benötigt wird um die Simulation auszuführen.
+
+<Callout emoji="⚠️" type="warning">
+  Die Laufzeit der Simulation ist nicht aussagekräftig, da die Implementierungen
+  nicht für das Ausführen auf Simulatoren optimiert sind.
+</Callout>
+<img src="../../simulation_duration.png" />
+Es lässt sich beobachten, dass Ansatz A in der Regel weniger Ausführungszeit
+benötigt.
+
+## Auslastung der CPU (%)
+
+Diese Metrik beschreibt die durchschnittliche Auslastung der CPU während der Simulation.
+
+<Callout emoji="⚠️" type="warning">
+  Die durchschnittliche Auslastung der CPU bei der Simulation ist nicht
+  aussagekräftig, da die Implementierungen nicht für das Ausführen auf
+  Simulatoren optimiert sind.
+</Callout>
+
 <img src="../../cpu_usage_avg.png" />
 
-<br />
-6.  Memory Range
+Die Auslastung der CPU (bis auf einen Ausreißer) ist in der Regel bei beiden Implementierungen gleich.
+
+## Speichernutzung (MB)
+
+<Callout emoji="⚠️" type="warning">
+  Die durchschnittliche Speichernutzung bei der Simulation ist nicht
+  aussagekräftig, da die Implementierungen nicht für das Ausführen auf
+  Simulatoren optimiert sind.
+</Callout>
+
 <img src="../../used_memory_range.png" />
+Es lässt sich beobachten, dass Ansatz A in der Regel weniger Speichernutzung aufweißt.
