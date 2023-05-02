@@ -22,7 +22,7 @@ dill==0.3.6
 entrypoints==0.4
 executing==1.2.0
 fastjsonschema==2.16.2
-Flask==2.2.2
+Flask==2.3.2
 fonttools==4.38.0
 idna==3.4
 importlib-metadata==5.0.0
