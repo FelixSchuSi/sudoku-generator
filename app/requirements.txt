@@ -103,7 +103,7 @@ sympy==1.11.1
 terminado==0.17.0
 tinycss2==1.2.1
 tomli==2.0.1
-tornado==6.2
+tornado==6.3.2
 traitlets==5.5.0
 tweedledum==1.1.1
 typing-extensions==4.4.0
